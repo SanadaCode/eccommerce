@@ -7,7 +7,9 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="order" routerLinkActive="active" *ngIf="guard.canActivate()">Ordini</a>
+        <a class="nav-link" (click)="getOrder()"
+        style="cursor:pointer"
+         routerLinkActive="active" *ngIf="guard.canActivate()">Ordini</a>
       </li>
     </ul>
     <ul class="navbar-nav">

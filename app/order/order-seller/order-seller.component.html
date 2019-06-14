@@ -1,0 +1,35 @@
+<div class="alert alert-danger mt-2" *ngIf="orders==null || orders.length == 0 ">
+    <span >Ordini non disponibili</span>
+</div>
+<table class="table table-responsive mt-4" *ngIf="orders!=null && orders.length != 0 " >
+  <h1 class="display-1" >Oridini</h1>
+  <hr>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome Prodotto</th>
+      <th scope="col">Data</th>
+      <th scope="col">Quantità</th>
+      <th scope="col">Stato Ordine</th>
+      <th scope="col">Paese</th>
+      <th scope="col">Città</th>
+      <th scope="col">Indirizzo</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders; let i= index">
+      <td>{{i+1}}</td>
+      <td>{{order.name}}</td>
+      <td>{{order.date}}</td>
+      <td>{{order.quantity}}</td>
+      <td>{{order.state}}</td>
+      <td>{{order.country}}</td>
+      <td>{{order.city}}</td>
+      <td>{{order.address}}</td>
+      <td><button class="btn btn-primary" (click)="sendProduct(order.id)">Invia</button></td>
+      <td><button class="btn btn-primary" (click)="deleteProduct(order.id)">Annulla</button></td>
+    </tr>
+  </tbody>
+</table>

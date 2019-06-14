@@ -25,6 +25,7 @@ import { ProductEditComponent } from './products/product-edit/product-edit.compo
 import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { CartComponent } from './order/cart/cart.component';
+import { OrderSellerComponent } from './order/order-seller/order-seller.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { CartComponent } from './order/cart/cart.component';
       ProductEditComponent,
       OrderComponent,
       OrderDetailComponent,
-      CartComponent
+      CartComponent,
+      OrderSellerComponent
    ],
    imports: [
       BrowserModule,

@@ -23,7 +23,6 @@ export class OrderComponent implements OnInit {
 
   async getOrder(){
     this.orders = await this.orderService.getOrderOfUser();
-    console.log(this.orders);
   }
 
   getDetail(id:number){

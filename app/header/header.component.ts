@@ -41,4 +41,13 @@ export class HeaderComponent implements OnInit {
     this.productService.product = null;
     this.router.navigateByUrl('/edit');
   }
+
+  getOrder(){
+    if(this.user.isSeller()){
+      this.router.navigateByUrl("/vendor")
+      console.log("qui")
+    }else{
+      this.router.navigateByUrl("order")
+    }
+  }
 }

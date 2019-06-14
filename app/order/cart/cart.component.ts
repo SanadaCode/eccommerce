@@ -23,6 +23,16 @@ export class CartComponent implements OnInit {
     this.orders = await this.orderService.getCart();
   }
   
+  onConfirm(){
+    this.orderService.confirmOrder();
+  }
   
-     
+  changeQuantity(order:OrderDetail){ 
+    let quantity=prompt("Inseriisci quantità", "0");
+    if( /^\d+$/.test(quantity)){
+      this.orderService.changeQuantity(quantity,order.name.trim());
+    }else{
+      alert("Non è stata inserita la quantità corretta")
+    }
+  }
 }

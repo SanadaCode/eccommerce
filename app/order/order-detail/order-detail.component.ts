@@ -18,17 +18,15 @@ export class OrderDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(async (params) => 
-       {this.orders= await this.orderService.getDetailOrder(params["id"]),
-       console.log(this.orders);}
+       {this.orders= await this.orderService.getDetailOrder(params["id"])}
     )
   }
 
-  changeQuantity(order:OrderDetail){
-    let quantity=prompt("Inseriisci quantità", "0");
-    if( /^\d+$/.test(quantity)){
-      let message = this.orderService.changeQuantity(quantity,order.name.trim());
-    }else{
-      alert("Non è stata inserita la quantità corretta")
+  
+
+  deleteProduct(order:OrderDetail){
+    if(confirm("sei sicuro di volever annulare l'ordine per questo prodotto?")){
+      this.orderService.deleteProductFromOrder(order.id);
     }
   }
 

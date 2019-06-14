@@ -13,6 +13,7 @@ import { SellerGuardService } from './auth/seller-guard.service';
 import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { CartComponent } from './order/cart/cart.component';
+import { OrderSellerComponent } from './order/order-seller/order-seller.component';
 
 const routes: Routes = [
   { path: 'bella', component: ProductsComponent, canActivate: [AuthGuardService] },
@@ -23,10 +24,6 @@ const routes: Routes = [
       { path: "edit", component: EditProfileComponent }
     ]
   },
-  { path: "login", component: LoginComponent },
-  { path: "order", component: OrderComponent},
-  { path: "order/:id", component: OrderDetailComponent},
-  { path: "cart", component: CartComponent},
   {
     path: "", component: HomeComponent, children: [
       { path: "", component: ProductsComponent },
@@ -35,6 +32,11 @@ const routes: Routes = [
       { path: "seller", component: ProductsComponent , canActivate: [SellerGuardService] }
     ]
   },
+  { path: "login", component: LoginComponent },
+  { path: "order", component: OrderComponent},
+  { path: "vendor", component: OrderSellerComponent},
+  { path: "order/:id", component: OrderDetailComponent},
+  { path: "cart", component: CartComponent},
 ];
 
 @NgModule({
