@@ -1,0 +1,10 @@
+<br>
+<div class="container">
+  <div class="d-flex justify-content-center " *ngIf="show()">
+    <div class="searchbar">
+      <input class="search_input" type="text" placeholder="Cerca per nome..." #nameInput (input)="onChange()">
+      <a class="search_icon" (click)="onSearch()"><i class="fas fa-search"></i></a>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

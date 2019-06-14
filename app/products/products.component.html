@@ -1,0 +1,13 @@
+
+
+<br>
+<div  class="conteiner" *ngIf="products != null">
+  <div class="card-columns">
+      <app-product-item
+      *ngFor="let productEl of products"
+      [product]="productEl"
+      [showButton]="isLoggedIn"
+      >
+      </app-product-item>
+  </div>
+</div>

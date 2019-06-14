@@ -1,0 +1,25 @@
+<br>
+<div class="login-page">
+    <form [formGroup]="loginForm" (submit)="onSubmit($event)">
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" placeholder="Email"  formControlName="email" >
+            <span style="color:red" *ngIf="!loginForm.get('email').valid && (loginForm.get('email').dirty || loginForm.get('email').touched)">Inserisci una email valida!</span> 
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" 
+            class="form-control" 
+            id="inputPassword" 
+            placeholder="Password"
+            formControlName="pass"
+            >
+            <span style="color:red" *ngIf="!loginForm.get('pass').valid && (loginForm.get('pass').dirty || loginForm.get('pass').touched)">Inserisci la password</span>
+            <br>
+            <span style="color:red" *ngIf="success">Email o Password errati</span>
+        </div>
+        <button type="submit" class="btn btn-primary" 
+        [disabled]="!loginForm.valid">Login</button>
+        <a routerLink="/signup" class="btn btn-link">Register</a>
+    </form>
+</div>

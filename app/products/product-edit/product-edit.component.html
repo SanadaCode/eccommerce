@@ -1,0 +1,71 @@
+<div class="" *ngIf="product">
+    <form [formGroup]="productForm" (submit)="onSubmit($event)">
+        <div class="form-group">
+            <label>Nome prodotto:</label>
+            <input type="text" 
+            class="form-control" 
+             placeholder="Name product..."  
+             formControlName="productName" 
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!productForm.get('productName').valid
+            && (productForm.get('productName').dirty || productForm.get('productName').touched)">
+            Inserisci un nome valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Prezzo:</label>
+            <input type="number" 
+            class="form-control" 
+            placeholder="Prize"
+            formControlName="productPrice"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!productForm.get('productPrice').valid
+            && (productForm.get('productPrice').dirty || productForm.get('productPrice').touched)">
+            Inserisci un prezzo valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Descrizione:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="descrizione"
+            formControlName="desc"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!productForm.get('desc').valid
+            && (productForm.get('desc').dirty || productForm.get('desc').touched)">
+            Inserisci una descrizione valida!</span> 
+        </div>
+        <div class="form-group">
+            <label >Immagine URL:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="Immagine URL"
+            formControlName="img"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!productForm.get('img').valid
+            && (productForm.get('img').dirty || productForm.get('img').touched)">
+            Inserisci un URL valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >quantiy:</label>
+            <input type="number" 
+            class="form-control" 
+            placeholder="quantity"
+            formControlName="quantity"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!productForm.get('quantity').valid
+            && (productForm.get('quantity').dirty || productForm.get('quantity').touched)">
+            Inserisci una quantità valida!</span> 
+        </div>
+        <button type="submit" class="btn btn-primary" 
+        [disabled]="!productForm.valid">Submit</button>
+    </form>
+</div>

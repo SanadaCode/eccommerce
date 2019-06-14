@@ -1,0 +1,98 @@
+<div >
+    <form [formGroup]="profileForm" (submit)="onSubmit($event)">
+        <div class="form-group">
+            <label>Nome:</label>
+            <input type="text" 
+            class="form-control" 
+             placeholder="Nome"  
+             formControlName="firstName" 
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('firstName').valid
+            && (profileForm.get('firstName').dirty || profileForm.get('firstName').touched)">
+            Inserisci un nome valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Cognome:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="Cognome"
+            formControlName="lastName"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('lastName').valid
+            && (profileForm.get('lastName').dirty || profileForm.get('lastName').touched)">
+            Inserisci un cognome valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Paese:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="paese"
+            formControlName="country"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('country').valid
+            && (profileForm.get('country').dirty || profileForm.get('country').touched)">
+            Inserisci un paese valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Città:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="Città"
+            formControlName="city"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('city').valid
+            && (profileForm.get('city').dirty || profileForm.get('city').touched)">
+            Inserisci una città valida!</span> 
+        </div>
+        <div class="form-group">
+            <label >Indirizzo:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="Indirizzo"
+            formControlName="address"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('address').valid
+             && (profileForm.get('address').dirty || profileForm.get('address').touched)">
+            Inserisci un indirizzo valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Cap:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="Cap"
+            formControlName="cap"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('cap').valid
+            && (profileForm.get('cap').dirty || profileForm.get('cap').touched)">
+            Inserisci un cap valido!</span> 
+        </div>
+        <div class="form-group">
+            <label >Cellulare:</label>
+            <input type="text" 
+            class="form-control" 
+            placeholder="Cellulare"
+            formControlName="phone"
+            >
+            <span 
+            style="color:red" 
+            *ngIf="!profileForm.get('phone').valid
+            && (profileForm.get('phone').dirty || profileForm.get('phone').touched)">
+            Inserisci un cellulare valido!</span> 
+        </div>
+        <button type="submit" class="btn btn-primary" 
+        [disabled]="!profileForm.valid">Submit</button>
+        <a routerLink="/profile/show" class="btn btn-link">Indietro</a>
+    </form>
+</div>
