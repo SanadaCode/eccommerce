@@ -4,7 +4,7 @@
   <div class="card-body">
     <p class="card-text">{{product.desc}}</p>
     <p>Prezzo: {{product.productPrice}}€</p>
-    <a class="btn btn-primary" *ngIf="showButton">Aggiungi al carrello</a>
+    <a class="btn btn-primary" *ngIf="showButton" (click)="addToCart()">Aggiungi al carrello</a>
     <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="editProduct()">Modifica</a>
     <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="deleteProduct()">Cancella</a>
   </div>

@@ -1,7 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProductsDataService } from './products-data.service';
-import { PARAMETERS } from '@angular/core/src/util/decorators';
 import { Product } from 'src/app/model/product';
 
 

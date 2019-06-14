@@ -1,10 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ProductsDataService } from '../service/products-data.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/model/product';
-import { TouchSequence } from 'selenium-webdriver';
-import { ActivatedRoute, Params } from '@angular/router';
 import { ProductRestService } from '../service/product-rest.service';
+import { ProductsDataService } from '../service/products-data.service';
 
 @Component({
   selector: 'app-product-edit',

@@ -1,11 +1,10 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { LoginService } from '../login/service/login.service';
-import { Observable, Subject } from 'rxjs';
-import { UserRestService } from '../profile/service/user-rest.service';
-import { UserDataService } from '../profile/service/user-data-service.service';
 import { Info } from '../model/info';
-import { ProductsDataService } from '../products/service/products-data.service';
+import { UserDataService } from '../profile/service/user-data-service.service';
+import { UserRestService } from '../profile/service/user-rest.service';
 
 
 @Injectable({
@@ -107,7 +106,6 @@ export class AuthService implements OnInit{
     this.userData.info=null;
     this.userData.logedIn=false;
     this.userData.role=null;
-
   }
 
   loadData(email: string, id: number, role : string){

@@ -22,6 +22,9 @@ import { ProductRestService } from './products/service/product-rest.service';
 import { ProductsDataService } from './products/service/products-data.service';
 import { ProductItemComponent } from './products/product-item/product-item.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
+import { OrderComponent } from './order/order.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { CartComponent } from './order/cart/cart.component';
 
 
 @NgModule({
@@ -36,7 +39,10 @@ import { ProductEditComponent } from './products/product-edit/product-edit.compo
       EditProfileComponent,
       ProductItemComponent,
       ProductsComponent,
-      ProductEditComponent
+      ProductEditComponent,
+      OrderComponent,
+      OrderDetailComponent,
+      CartComponent
    ],
    imports: [
       BrowserModule,

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/model/product';
 import { ProductsDataService } from '../service/products-data.service';
+import { OrderRestService } from 'src/app/order/service/order-rest.service';
 
 @Component({
   selector: 'app-product-item',
@@ -15,6 +16,7 @@ export class ProductItemComponent implements OnInit {
   
 
   constructor(private productData: ProductsDataService,
+    private orderService: OrderRestService,
     private router: Router) {
   }
 
@@ -28,6 +30,15 @@ export class ProductItemComponent implements OnInit {
 
   deleteProduct() {
     this.productData.deleteProduct(this.product.productName);
+  }
+
+  addToCart(){
+    let quantity=prompt("Inseriisci quantità", "0");
+    if( /^\d+$/.test(quantity)){
+      let message = this.orderService.addToCart(this.product.productName, quantity);
+    }else{
+      alert("Non è stata inserita la quantità corretta")
+    }
   }
 
 }

@@ -10,6 +10,9 @@ import { ShowProfileComponent } from './profile/show-profile/show-profile.compon
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { SellerGuardService } from './auth/seller-guard.service';
+import { OrderComponent } from './order/order.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { CartComponent } from './order/cart/cart.component';
 
 const routes: Routes = [
   { path: 'bella', component: ProductsComponent, canActivate: [AuthGuardService] },
@@ -21,6 +24,9 @@ const routes: Routes = [
     ]
   },
   { path: "login", component: LoginComponent },
+  { path: "order", component: OrderComponent},
+  { path: "order/:id", component: OrderDetailComponent},
+  { path: "cart", component: CartComponent},
   {
     path: "", component: HomeComponent, children: [
       { path: "", component: ProductsComponent },

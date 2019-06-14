@@ -1,0 +1,25 @@
+<div class="alert alert-danger mt-2" *ngIf="orders==null || orders.length == 0 ">
+    <span >Ordini non disponibili</span>
+</div>
+<table class="table table-responsive mt-4" *ngIf="orders!=null && orders.length != 0 " >
+  <h1 class="display-1" >Oridine</h1>
+  <hr>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Data</th>
+      <th scope="col">Prezzo</th>
+      <th scope="col">Stato Ordine</th>
+      <th scope="col">Detail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders; let i=index">
+      <td>{{i+1}}</td>
+      <td>{{order.date}}</td>
+      <td>{{order.transaction.price}}€</td>
+      <td>{{order.state.desc}}</td>
+      <td><button class="btn btn-primary" (click)="getDetail(order.id)">Detail</button></td>
+    </tr>
+  </tbody>
+</table>
