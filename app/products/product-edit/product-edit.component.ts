@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/model/product';
 import { ProductRestService } from '../service/product-rest.service';
 import { ProductsDataService } from '../service/products-data.service';
+import { SpaceValidator } from 'src/app/validator/space.validator';
 
 @Component({
   selector: 'app-product-edit',
@@ -12,11 +13,11 @@ import { ProductsDataService } from '../service/products-data.service';
 })
 export class ProductEditComponent implements OnInit {
   productForm: FormGroup = new FormGroup({
-    productName: new FormControl('', Validators.required),
-    desc: new FormControl('', Validators.required),
+    productName: new FormControl('', [Validators.required, SpaceValidator, Validators.maxLength(100)]),
+    desc: new FormControl('', [Validators.required, SpaceValidator, Validators.maxLength(500)]),
     quantity: new FormControl('', Validators.min(0)),
     productPrice: new FormControl('', [Validators.required, Validators.min(0)]),
-    img: new FormControl('', Validators.required)
+    img: new FormControl('', [Validators.required, SpaceValidator, Validators.maxLength(1000)])
   });;
   product: Product =null;
   products: Product[];

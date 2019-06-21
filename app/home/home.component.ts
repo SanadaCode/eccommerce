@@ -9,7 +9,7 @@ import { UserDataService } from '../profile/service/user-data-service.service';
 })
 export class HomeComponent implements OnInit {
 
-  @ViewChild("nameInput") name: ElementRef;
+  @ViewChild("nameInput",null) name : ElementRef;
 
   constructor(private productData: ProductsDataService,
     private render: Renderer2,

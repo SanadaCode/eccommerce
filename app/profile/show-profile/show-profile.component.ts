@@ -10,16 +10,24 @@ import { UserDataService } from '../service/user-data-service.service';
 })
 export class ShowProfileComponent implements OnInit {
   
-  info: Info;
+  private flag = false;
+  info: Info = null;
 
   constructor(private auth: AuthService,
     private user:UserDataService) { 
-      this.auth.profile();
+      this.flag=false;
       this.user.infoUser.subscribe(
-        data => this.info=data
+        data => {this.info=data;
+          console.log(this.info)
+        this.flag = true}
       );
+      this.auth.profile();
     }
 
+
   ngOnInit() {
+    if(localStorage.getItem("firstName") == null){
+      this.flag=true;
+    }
   }
 }

@@ -91,7 +91,7 @@ export class ProductsDataService {
   addProduct(product: Product) {
     if (this.userData.isSeller()) {
       this.productService.addProduct(this.auth.getId(), product).subscribe(
-        data => 
+        data => this.router.navigateByUrl("/"),
         error => alert(error.message)
       )
     }

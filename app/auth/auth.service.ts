@@ -24,22 +24,43 @@ export class AuthService implements OnInit{
     private route: ActivatedRoute,
     private loginService: LoginService,
     private userService: UserRestService,
-    private userData: UserDataService) {}
+    private userData: UserDataService) {
+      let logedIn =localStorage.getItem("isLoggedIn")
+      if(logedIn != null){
+        this.isLoggedIn=true;
+        let id = localStorage.getItem("id");
+        let name = localStorage.getItem("firstName");
+        let surname = localStorage.getItem("lastName");
+        let role = localStorage.getItem("role");
+        this.role = role;
+        this.id=parseInt(id);
+        this.userData.info.firstName=name;
+        this.userData.role=role;
+        this.userData.logedIn=true;
+        this.userData.info.lastName=surname;
+        this.userData.id=parseInt(id);
+        this.succ.next(false);
+      }
+    }
     
   public getLoginErrors():Subject<boolean>{
       return this.succ;
   }
     
   signinUser(email:string, pass:string){
-    this.reset();
+    this.saveProductToAdd();
     this.loginService.login(email,pass).subscribe(
     data => {
+      this.saveProductToAdd();
       this.userData.info=new Info();
       this.userData.info.firstName=data.name;
       this.userData.info.lastName=data.surname;
+      if(data.surname != null){
+        localStorage.setItem("firstName", data.name);
+        localStorage.setItem("lastName", data.surname);
+      }
       this.userData.role=data.cod;
       this.userData.logedIn=true;
-      console.log(data.cod)
       this.loadData(email,data.id, data.cod);
       this.userData.id=data.id;
       this.succ.next(false);
@@ -59,7 +80,7 @@ export class AuthService implements OnInit{
   }
 
   signup(email:string, pass:string){
-    this.reset();
+    this.saveProductToAdd();
     this.loginService.signup(email,pass).subscribe(
       data => {
         this.loadData(email,data.id, data.cod);
@@ -81,22 +102,38 @@ export class AuthService implements OnInit{
 
   profileEdit(info: Info){
     this.userService.editUser(this.id,info).subscribe(
-      data => {this.userData.info=data,
+      data => {this.userData.info=data;
         this.router.navigateByUrl("profile/show")
-      },
-      error => console.log(error)
+        }
     )
   }
 
   profileSave(info: Info){
     this.userService.saveUser(this.id,info).subscribe(
       data => {this.userData.info=data,
-        this.router.navigateByUrl("profile/show")
+        localStorage.setItem("firstName", this.userData.info.firstName);
+        localStorage.setItem("lastName", this.userData.info.firstName);
+        if(localStorage.get("add") !=null){
+          this.router.navigateByUrl("cart");
+        }else{
+          this.router.navigateByUrl("profile/show");
+        }
       },
-      error => console.log(error)
-    )
+      error => localStorage.removeItem("add"))
   }
 
+  saveProductToAdd(){
+    if(localStorage.getItem("addToCart") != null){
+      let name= localStorage.getItem("name");
+      let quantity = localStorage.getItem("quantity");
+      this.reset();
+      localStorage.setItem("addToCart","true");
+        localStorage.setItem("name",name);
+        localStorage.setItem("quantity",quantity);
+    }else{
+      this.reset();
+    }
+  }
   reset(){
     this.isLoggedIn= false;
     this.id = null;
@@ -106,6 +143,8 @@ export class AuthService implements OnInit{
     this.userData.info=null;
     this.userData.logedIn=false;
     this.userData.role=null;
+    localStorage.clear();
+    
   }
 
   loadData(email: string, id: number, role : string){
@@ -113,7 +152,12 @@ export class AuthService implements OnInit{
     this.id = id
     this.role = role;
     this.email=email;
+    localStorage.setItem("id" , id.toString());
+    localStorage.setItem("isLoggedIn" , this.isLoggedIn.toString());
+    localStorage.setItem("role" , role);
+    localStorage.setItem("email" , email);
   }
+
 
   getId(){
     return this.id;

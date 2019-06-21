@@ -14,7 +14,7 @@
             placeholder="Password"
             formControlName="pass"
             >
-            <span style="color:red" *ngIf="!loginForm.get('pass').valid && (loginForm.get('pass').dirty || loginForm.get('pass').touched)">Inserisci la password</span>
+            <span style="color:red" *ngIf="!loginForm.get('pass').valid && (loginForm.get('pass').dirty || loginForm.get('pass').touched)">Inserisci una password valida! La password deve avere almeno 8 caratteri.</span>
             <br>
             <span style="color:red" *ngIf="success">Email o Password errati</span>
         </div>

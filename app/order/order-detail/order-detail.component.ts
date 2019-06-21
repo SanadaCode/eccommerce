@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { OrderRestService } from '../service/order-rest.service';
+import { Subject } from 'rxjs';
+import { ConfirmComponent } from 'src/app/material/conferm/conferm.component';
 import { OrderDetail } from 'src/app/model/order-detail';
-import { Order } from 'src/app/model/order';
+import { OrderRestService } from '../service/order-rest.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -12,22 +14,50 @@ import { Order } from 'src/app/model/order';
 export class OrderDetailComponent implements OnInit {
 
   private orders:OrderDetail[];
+  private theOrders = new Subject<OrderDetail[]>();
+  private flag=true;
 
   constructor(private route: ActivatedRoute,
-    private orderService:OrderRestService) { }
+    private orderService:OrderRestService,
+    private dialog :MatDialog) { }
 
   ngOnInit() {
+    this.getOrder();
+    this.theOrders.subscribe(
+      data => this.orders=data
+    )
+    
+  }
+
+  getOrder(){
     this.route.params.subscribe(async (params) => 
-       {this.orders= await this.orderService.getDetailOrder(params["id"])}
+       {let data= await this.orderService.getDetailOrder(params["id"]);
+      this.theOrders.next(data);
+      this.flag=false;}
     )
   }
 
-  
-
-  deleteProduct(order:OrderDetail){
-    if(confirm("sei sicuro di volever annulare l'ordine per questo prodotto?")){
-      this.orderService.deleteProductFromOrder(order.id);
+  async deleteProduct(order:OrderDetail , result:boolean){
+    if(result){
+      await this.orderService.deleteProductFromOrder(order.id);
+      this.getOrder();
     }
+  }
+
+  
+  openConfirm(order:OrderDetail): void {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      height: '300px',
+      width: '250px'
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.deleteProduct(order,result);
+    });
+  }
+
+
+  private setState(state: string){
   }
 
 

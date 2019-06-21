@@ -1,33 +1,64 @@
-<div class="alert alert-danger mt-2" *ngIf="orders==null || orders.length == 0 ">
-    <span>Nessun Prodotto nel carrello!</span>
-  </div>
-  <div class="table table-responsive mt-4" *ngIf="orders!=null && orders.length != 0 ">
-    <h1 class="display-1">Dettaglio Ordine</h1>
-    <hr>
-    <div *ngFor="let order of orders">
-      <div class="card mb-3" style="max-width: 900px;">
-        <div class="row ">
-          <div class="col-md-3">
-            <img src="{{order.img}}" class="card-img" style="max-height: 320px; min-height: 320px; max-width: 240px; min-width: 240px" alt="Immagine prodotto">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body ml-2">
-              <div class="row">
-                <div class="col">
-                <h5 class="card-title">{{order.name}}</h5>
-                  <p class="card-text">Descrizione: {{order.desc}}</p>
-                  <p class="card-text">Prezzo: {{order.price}}</p>
-                  <p class="card-text">Quantità: {{order.quantity}}</p>
-                </div>
-                <div class="col">
-                  <a class="btn btn-primary m-2" (click)="changeQuantity(order)">Modifica</a>
-                  <a class="btn btn-primary m-2" (click)="deleteProduct()">Annulla</a>
+<div class="alert alert-danger mt-2 " *ngIf="(orders==null || orders.length == 0 ) && flag">
+  <span>Nessun prodotto nel carrello!</span>
+</div>
+<div class="row no-gutters" style="max-width: 1000px">
+    <h1 class="display-1" *ngIf="orders!=null && orders.length != 0 ">Carrello</h1>
+    <hr *ngIf="orders!=null && orders.length != 0 ">
+  <div class="col-9">
+    <div *ngIf="orders!=null && orders.length != 0 ">
+      <div *ngFor="let order of orders">
+        <div class="card mb-3" style="max-width: 800px;">
+            <div class="row no-gutters">
+            <div class="col-md-3">
+              <img src="{{order.img}}" class="card-img"
+                style="max-height: 320px; max-width: 240px;"
+                alt="Immagine prodotto">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title">{{order.name}}</h5>
+                    <p class="card-text">Descrizione: {{order.desc}}</p>
+                    <p class="card-text">Prezzo: {{order.price}}</p>
+                    <p class="card-text">Quantità: {{order.quantity}}</p>
+                  </div>
+                  <div class="col">
+                    <a class="btn btn-primary m-2" (click)="openDialog(order)">Modifica</a>
+                    <a class="btn btn-primary m-2" (click)="openDelete(order.name)">Annulla</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <button class="btn btn-primary m-2" (click)=" openConfirm()" *ngIf="orders!=null && orders.length != 0 ">Conferma
+        ordine</button>
     </div>
-    <button class="btn btn-primary m-2" (click)=" onConfirm()" *ngIf="orders!=null && orders.length != 0 ">Conferma ordine</button>
   </div>
+  <div class="col-3">
+    <aside *ngIf="orders!=null && orders.length != 0 ">
+      <div class="list-group ml-2">
+        <span class="list-group-item list-group-item-success text-center">Info</span>
+        
+        <span class="list-group-item" *ngFor="let order of orders">
+          <div class="row">
+              <i>Prodotto</i>: {{order.name}}
+          </div>
+          <div class="row">
+              <i>Quantità</i>: {{order.quantity}}
+          </div>
+          <div class="row">
+              <i>Prezzo</i>: {{order.price * order.quantity}}€
+          </div>
+        </span>
+        <span class="list-group-item list-group-item-success" style="text-align: right">
+         Total: {{total}}€
+        </span>
+      </div>
+    </aside>
+  </div>
+</div>
+
+

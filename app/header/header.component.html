@@ -32,7 +32,7 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="login">Login</a>
           <a class="dropdown-item" *ngIf="guard.canActivate()" routerLink="profile/show">Profilo</a>
-          <a class="dropdown-item" *ngIf="sellerGuard.canActivate()" style="cursor:pointer" (click)="addProduct()">
+          <a class="dropdown-item" *ngIf="sellerGuard.canActivate()" style="cursor:pointer"  routerLink="/edit"  (click)="addProduct()">
             Aggiungi prodotto
           </a>
           <a class="dropdown-item" *ngIf="guard.canActivate()" style="cursor:pointer"

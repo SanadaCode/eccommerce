@@ -14,9 +14,11 @@ import { OrderComponent } from './order/order.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { CartComponent } from './order/cart/cart.component';
 import { OrderSellerComponent } from './order/order-seller/order-seller.component';
+import { UploadComponent } from './file/upload/upload.component';
 
 const routes: Routes = [
   { path: 'bella', component: ProductsComponent, canActivate: [AuthGuardService] },
+  { path: 'upload', component: UploadComponent },
   { path: "signup", component: SignupComponent },
   {
     path: "profile", component: ProfileComponent, canActivate: [AuthGuardService], children: [
@@ -24,10 +26,11 @@ const routes: Routes = [
       { path: "edit", component: EditProfileComponent }
     ]
   },
+  
+  { path: "edit", component: ProductEditComponent , canActivate: [SellerGuardService] },
   {
     path: "", component: HomeComponent, children: [
       { path: "", component: ProductsComponent },
-      { path: "edit", component: ProductEditComponent , canActivate: [SellerGuardService] },
       { path: "edit/:name", component: ProductEditComponent , canActivate: [SellerGuardService] },
       { path: "seller", component: ProductsComponent , canActivate: [SellerGuardService] }
     ]
@@ -37,7 +40,9 @@ const routes: Routes = [
   { path: "vendor", component: OrderSellerComponent},
   { path: "order/:id", component: OrderDetailComponent},
   { path: "cart", component: CartComponent},
+  { path: "edit", component: ProductEditComponent , canActivate: [SellerGuardService] },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,37 +1,38 @@
-<div class="alert alert-danger" *ngIf="info==null">
+<div class="alert alert-danger" *ngIf="info==null && flag">
 <span >Profilo non disponibile</span>
 </div>
-<table class="table table-responsive" *ngIf="info!=null">
-  
-  <tbody>
-    <tr>
-      <th scope="row">Nome</th>
-      <td>{{info.firstName}}</td>
-    </tr>
-    <tr>
-      <th scope="row">Cognome</th>
-      <td>{{info.lastName}}</td>
-    </tr>
-    <tr>
-        <th scope="row">Paese</th>
-        <td>{{info.country}}</td>
-    </tr>
-    <tr>
-        <th scope="row">Città</th>
-        <td>{{info.city}}</td>
-    </tr>
-    <tr>
-        <th scope="row">Indirizzo</th>
-        <td>{{info.address}}</td>
-    </tr>
-    <tr>
-        <th scope="row">Cap</th>
-        <td>{{info.cap}}</td>
-    </tr>
-  </tbody>
-</table>
-<br>
-<div>
+<div class="d-flex justify-content-center align-items-center">
+  <table class="table table-responsive" *ngIf="info!=null">
+    <tbody>
+      <tr>
+        <th scope="row">Nome</th>
+        <td>{{info.firstName}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Cognome</th>
+        <td>{{info.lastName}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Paese</th>
+          <td>{{info.country}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Città</th>
+          <td>{{info.city}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Indirizzo</th>
+          <td>{{info.address}}</td>
+      </tr>
+      <tr>
+          <th scope="row">Cap</th>
+          <td>{{info.cap}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+</div>
+<div class="d-flex justify-content-center">
 <button type="button" 
 class="btn btn-primary" 
 routerLink="../edit"

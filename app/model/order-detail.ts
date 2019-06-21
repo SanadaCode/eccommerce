@@ -5,4 +5,5 @@ export class OrderDetail {
    price:number;
    img:string;
    desc:string;
+   state:string;
 }
