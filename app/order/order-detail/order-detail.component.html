@@ -21,7 +21,7 @@
                 <p class="card-text">Stato: {{order.state}}</p>
               </div>
               <div class="col">
-                <a class="btn btn-primary m-2" (click)="openConfirm(order)" *ngIf="order.state =='Confermato'">Annulla</a>
+                <a class="btn btn-primary m-2" (click)="deleteProduct(order)" *ngIf="order.state =='Confermato'">Annulla</a>
               </div>
             </div>
           </div>

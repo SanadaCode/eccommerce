@@ -6,6 +6,8 @@ import { UserDataService } from 'src/app/profile/service/user-data-service.servi
 import { ProductRestService } from './product-rest.service';
 import { Router } from '@angular/router';
 
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -100,9 +102,25 @@ export class ProductsDataService {
   deleteProduct( name: string) {
     if (this.userData.isSeller()) {
       this.productService.deleteProduct(this.auth.getId(), name).subscribe(
-        data => this.router.navigateByUrl("/"),
-        error => alert(error.message)
-      )
+        data => {
+          Sweet.fire({
+            type: 'success',
+            title: 'Successo',
+            text: "L'operazione è avvenuta con successo!",
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.router.navigateByUrl("/")
+        }),
+        error => {
+          Sweet.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: error.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
     }
   }
 

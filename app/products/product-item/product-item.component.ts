@@ -5,6 +5,7 @@ import { DialogComponent } from 'src/app/material/dialog/dialog.component';
 import { Product } from 'src/app/model/product';
 import { OrderRestService } from 'src/app/order/service/order-rest.service';
 import { ProductsDataService } from '../service/products-data.service';
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-product-item',
@@ -33,41 +34,63 @@ export class ProductItemComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.productData.deleteProduct(this.product.productName);
+    Sweet.fire({
+      title: 'Sei sicuro?',
+      text: "Non potrai ritornare indietro!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cancellalo!'
+    }).then(async (result) => {
+      if (result.value) {
+        this.productData.deleteProduct(this.product.productName);
+      }
+    })
   }
 
-  addToCart(result: string){
-    
-    if( /^\d+$/.test(result)){
+  async addToCart(result: string){
+    const { value: quantity } = await Sweet.fire({
+      title: 'Inserisci la quantità!',
+      input: 'number',
+      inputAttributes: {
+        min: 1,
+      },
+      inputValidator: (value) => {
+        if (value < 1) {
+          return 'La nuova quantità deve essere almeno 1!'
+        }
+      },
+      inputPlaceholder: 'Quantità'
+    })
+    if (quantity) {
       if(localStorage.getItem("isLoggedIn") != null){
-        let message = this.orderService.addToCart(this.product.productName, result);
+        await this.orderService.addToCart(this.product.productName, quantity).then(
+          (res) => {
+            Sweet.fire(
+              'Success!',
+              res.message,
+              'success'
+            )
+          },
+          (rej) => {
+            Sweet.fire({
+              position:"top-end",
+              type: 'error',
+              title: 'Oops...',
+              text: rej.error.message,
+              showConfirmButton: false,
+              timer: 2000
+            })
+          })
       }else{
         localStorage.setItem("addToCart","true");
         localStorage.setItem("name",this.product.productName);
-        localStorage.setItem("quantity",result);
+        localStorage.setItem("quantity",quantity);
         this.router.navigateByUrl("login")
       }
-    }else if(result != null){
-      this.displayError(this.message);
     }
-  }
-
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      height: '300px',
-      width: '250px'
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.addToCart(result);
-    });
-
-  } 
-
-  displayError(message:string){
-    this.snackBar.open(message, "error", {
-      duration: 20000,
-    });
+    
   }
 
 }

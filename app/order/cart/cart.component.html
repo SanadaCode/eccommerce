@@ -24,8 +24,8 @@
                     <p class="card-text">Quantità: {{order.quantity}}</p>
                   </div>
                   <div class="col">
-                    <a class="btn btn-primary m-2" (click)="openDialog(order)">Modifica</a>
-                    <a class="btn btn-primary m-2" (click)="openDelete(order.name)">Annulla</a>
+                    <a class="btn btn-primary m-2" (click)="changeQuantity(order)">Modifica</a>
+                    <a class="btn btn-primary m-2" (click)="deleteProduct(order.name)">Annulla</a>
                   </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary m-2" (click)=" openConfirm()" *ngIf="orders!=null && orders.length != 0 ">Conferma
+      <button class="btn btn-primary m-2" (click)=" onConfirm()" *ngIf="orders!=null && orders.length != 0 ">Conferma
         ordine</button>
     </div>
   </div>

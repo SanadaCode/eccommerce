@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { ConfirmComponent } from 'src/app/material/conferm/conferm.component';
 
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
+
 @Component({
   selector: 'app-order-seller',
   templateUrl: './order-seller.component.html',
@@ -16,7 +18,7 @@ export class OrderSellerComponent implements OnInit {
   private orders:OrderSeller[]= null;
   private theOrders= new Subject<OrderSeller[]>();
   private flag = false;
-
+  private table;
 
   constructor(private orderService: OrderRestService,
     private route:Router,
@@ -27,13 +29,12 @@ export class OrderSellerComponent implements OnInit {
       data => this.orders=data
     )
     this.getOrder();
-    
   }
   
   async getOrder(){
     let data = await this.orderService.getOrderOfSeller();
     this.theOrders.next(data);
-    $(document).ready( function () {
+    this.table=$(document).ready( function () {
       console.log("dataTable")
       $('#table_order').DataTable(
         {
@@ -48,42 +49,73 @@ export class OrderSellerComponent implements OnInit {
   }
 
 
-  async sendProduct(id:number,result: boolean){
-    if(result){
-      await this.orderService.sendOrder(id);
-      this.getOrder();
-
-    }
-  }
-
-  async deleteProduct(id:number, result: boolean){
-    if(result){
-      await this.orderService.deleteProductFromOrder(id);
-      this.getOrder();
-    }
-  }
-
-  openDelete(id:number): void {
-    const dialogRef = this.dialog.open(ConfirmComponent, {
-      height: '300px',
-      width: '250px'
+  async sendProduct(id:number){
+    Sweet.fire({
+      title: 'Sei sicuro?',
+      text: "Non potrai ritornare indietro!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cancellalo!'
+    }).then(async (result) => {
+      if (result.value) {
+        await this.orderService.sendOrder(id).then((res) => {
+          Sweet.fire(
+            'Spedito!',
+            res.message,
+            'success'
+          )
+          this.table.destroy();
+          this.getOrder();
+        },
+          (rej) => {
+            Sweet.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: rej.error.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.getOrder();
+          })
+      }
     })
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.deleteProduct(id,result);
-    });
+    
   }
 
-  openSend(id:number): void {
-    const dialogRef = this.dialog.open(ConfirmComponent, {
-      height: '300px',
-      width: '250px'
+  async deleteProduct(id:number){
+    Sweet.fire({
+      title: 'Sei sicuro?',
+      text: "Non potrai ritornare indietro!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cancellalo!'
+    }).then(async (result) => {
+      if (result.value) {
+        await this.orderService.deleteProductFromOrder(id).then((res) => {
+          Sweet.fire(
+            'Cancellato!',
+            res.message,
+            'success'
+          )
+          this.table.destroy();
+          this.getOrder();
+        },
+          (rej) => {
+            Sweet.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: rej.error.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.getOrder();
+          })
+      }
     })
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.sendProduct(id,result);
-    });
+    
   }
-
-
 }

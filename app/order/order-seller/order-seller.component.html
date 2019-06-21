@@ -28,8 +28,8 @@
       <td>{{order.country}}</td>
       <td>{{order.city}}</td>
       <td>{{order.address}}</td>
-      <td><button class="btn btn-primary" (click)="openSend(order.id)" *ngIf="order.state == 'Confermato'">Invia</button></td>
-      <td><button class="btn btn-primary" (click)="openDelete(order.id)"  *ngIf="order.state == 'Confermato'">Annulla</button></td>
+      <td><button class="btn btn-primary" (click)="sendProduct(order.id)" *ngIf="order.state == 'Confermato'">Invia</button></td>
+      <td><button class="btn btn-primary" (click)="deleteProduct(order.id)"  *ngIf="order.state == 'Confermato'">Annulla</button></td>
     </tr>
   </tbody>
 </table>

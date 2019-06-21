@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { ConfirmComponent } from 'src/app/material/conferm/conferm.component';
-import { DialogComponent } from 'src/app/material/dialog/dialog.component';
-import { OrderDetail } from 'src/app/model/order-detail';
-import { OrderRestService } from '../service/order-rest.service';
 import { MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { OrderDetail } from 'src/app/model/order-detail';
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
+import { OrderRestService } from '../service/order-rest.service';
 
 @Component({
   selector: 'app-cart',
@@ -18,107 +17,139 @@ export class CartComponent implements OnInit {
   private orders: OrderDetail[];
   private theOrders = new Subject<OrderDetail[]>();
   private flag = false;
-  private message :string = "Quantità errata";
-  private total:number = 0;
+  private message: string = "Quantità errata";
+  private total: number = 0;
 
   constructor(private route: Router,
     private orderService: OrderRestService, public dialog: MatDialog,
-    private snackBar:MatSnackBar) { }
+    private snackBar: MatSnackBar) { }
 
-    ngOnInit() {
+  ngOnInit() {
     this.getCart()
-      this.theOrders.subscribe(
-        data => {
-          this.orders = data;
-          this.total=0;
-         this.orders.forEach(element => {
-            this.total=this.total + element.quantity * element.price;
-          });
-        }
-      )
-      if(localStorage.getItem("add") != null){
-        this.orderService.confirmOrder();
-        localStorage.removeItem("add");
+    this.theOrders.subscribe(
+      data => {
+        this.orders = data;
+        this.total = 0;
+        this.orders.forEach(element => {
+          this.total = this.total + element.quantity * element.price;
+        });
       }
+    )
+    if (localStorage.getItem("add") != null) {
+      this.orderService.confirmOrder();
+      localStorage.removeItem("add");
+    }
+
   }
 
   async getCart() {
     let data = await this.orderService.getCart();
     this.theOrders.next(data);
-    this.flag=true;
+    this.flag = true;
   }
 
-  async onConfirm(result:boolean) {
-    if(result){
-      await this.orderService.confirmOrder();
-      this.getCart();
-      this.route.navigateByUrl("/");
-    }
-  }
-
-  async changeQuantity(order: OrderDetail, quantity: string) {
-    if (/^\d+$/.test(quantity)) {
-      await this.orderService.changeQuantity(quantity, order.name.trim());
-      this.getCart();
-    } else if(quantity != null){
-       this.displayError(this.message);
-    }
-  }
-
-  async deleteProduct(name: string, result: boolean) {
-    if (result) {
-      await this.orderService.deleteProductFromCart(name);
-      this.getCart();
-    }
-  }
-
-  openDialog(order:OrderDetail): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      height: '300px',
-      width: '250px'
+  async onConfirm() {
+    Sweet.fire({
+      title: 'Conferma Carrello',
+      text: "Sei sicuro?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, conferma ordine!'
+    }).then(async (result) => {
+      if (result.value) {
+        await await this.orderService.confirmOrder().then((res) => {
+          Sweet.fire(
+            'Successo!',
+            res.message,
+            'success'
+          )
+          this.getCart(); 
+          this.route.navigateByUrl("/");
+        },
+          (rej) => {
+            Sweet.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: rej.error.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.getCart();
+          })
+      }
     })
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.changeQuantity(order,result);
-    });
-
   }
 
-  openConfirm(): void {
-    let user= localStorage.getItem("firstName");
-    if(user != null){
-      const dialogRef = this.dialog.open(ConfirmComponent, {
-        height: '300px',
-        width: '250px'
-      })
-      dialogRef.afterClosed().subscribe(result => {
-        this.onConfirm(result);
-      });
-    }else{
-      console.log("qui")
-      localStorage.setItem("add", "true");
-      this.route.navigateByUrl("profile/edit");
-      
-    }
-    
-  }
-
-  openDelete(name: string): void {
-    const dialogRef = this.dialog.open(ConfirmComponent, {
-      height: '300px',
-      width: '250px'
+  async changeQuantity(order: OrderDetail) {
+    const { value: quantity } = await Sweet.fire({
+      title: 'Inserisci la quantità!',
+      input: 'number',
+      inputAttributes: {
+        min: 1,
+      },
+      inputValidator: (value) => {
+        if (value < 1) {
+          return 'La nuova quantità deve essere almeno 1!'
+        }
+      },
+      inputPlaceholder: 'Quantità'
     })
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.deleteProduct(name,result);
-    });
+    if (quantity) {
+      await this.orderService.changeQuantity(quantity, order.name.trim()).then(
+        (res) => {
+          Sweet.fire(
+            'Success!',
+            res.message,
+            'success'
+          )
+          this.getCart();
+        },
+        (rej) => {
+          Sweet.fire({
+            position:"top-end",
+            type: 'error',
+            title: 'Oops...',
+            text: rej.error.message,
+            showConfirmButton: false,
+            timer: 2000
+          })
+        })
+    }
   }
 
-  
-  displayError(message:string){
-    this.snackBar.open(message, "error", {
-      duration: 20000,
-    });
+  async deleteProduct(name: string) {
+    Sweet.fire({
+      title: 'Sei sicuro?',
+      text: "Non potrai ritornare indietro!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cancellalo!'
+    }).then(async (result) => {
+      if (result.value) {
+        await await this.orderService.deleteProductFromCart(name).then((res) => {
+          Sweet.fire(
+            'Cancellato!',
+            'Il prodotto è stato tolto dal carrello.',
+            'success'
+          )
+          this.getCart();
+        },
+          (rej) => {
+            Sweet.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: rej.error.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.getCart();
+          })
+      }
+    })
   }
 
 }

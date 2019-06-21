@@ -48,11 +48,7 @@ export class OrderRestService {
     let param:Params = new HttpParams().append("id",this.auth.getId().toString())
     .append("name", name)
     .append("quantity", quantity);
-    return this.http.post<any>(url,null,{params: param}).toPromise().then(
-      success => this.displayError(success.message)
-    ).catch(
-      error => this.displayError(error.error.message)
-    );
+    return this.http.post<any>(url,null,{params: param}).toPromise();
   }
 
   changeQuantity(quantity: string,name:string) {
@@ -60,29 +56,20 @@ export class OrderRestService {
     let param:Params = new HttpParams().append("id",this.auth.getId().toString())
     .append("name", name)
     .append("quantity", quantity);
-    return this.http.put<any>(url,null,{params: param}).toPromise().then(
-      success => this.displayError(success.message),
-      error => this.displayError(error.error.message)
-    );
+    return this.http.put<any>(url,null,{params: param}).toPromise();
   }
 
   deleteProductFromOrder(id: number) {
     let url = this.url + "order/cancel";
     let param:Params = new HttpParams().append("id",this.auth.getId().toString())
     .append("orderId", id.toLocaleString());
-    return this.http.delete<any>(url,{params: param}).toPromise().then(
-      success => this.displayError(success.message),
-      error => this.displayError(error.error.message)
-    );;
+    return this.http.delete<any>(url,{params: param}).toPromise();
   }
 
   confirmOrder() {
     let url = this.url + "order/confirm";
     let param:Params = new HttpParams().append("id",this.auth.getId().toString());
-    return this.http.put<any>(url,null,{params: param}).toPromise().then(
-      success => this.displayError(success.message),
-      error => this.displayError(error.error.message)
-    );
+    return this.http.put<any>(url,null,{params: param}).toPromise();
   }
 
  sendOrder(id:number) {
@@ -96,15 +83,8 @@ export class OrderRestService {
     let url = this.url + "order/delete";
     let param:Params = new HttpParams().append("id",this.auth.getId().toString())
     .append("name", name);
-    return this.http.delete<any>(url,{params: param}).toPromise().then(
-      success => this.displayError(success.message),
-      error => this.displayError(error.error.message)
-    );
+    return this.http.delete<any>(url,{params: param}).toPromise();
   }
 
-  displayError(message:string){
-    this.snackBar.open(message, "error", {
-      duration: 2000,
-    });
-  }
+  
 }

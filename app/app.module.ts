@@ -1,9 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuardService } from './auth/auth-guard.service';
@@ -30,7 +31,6 @@ import { UserDataService } from './profile/service/user-data-service.service';
 import { UserRestService } from './profile/service/user-rest.service';
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 import { SignupComponent } from './signup/signup.component';
-
 
 
 
@@ -70,7 +70,13 @@ import { SignupComponent } from './signup/signup.component';
       MatFormFieldModule,
       MatInputModule,
       MatSnackBarModule,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      SweetAlert2Module.forRoot({
+         buttonsStyling: false,
+         customClass: 'modal-content',
+         confirmButtonClass: 'btn btn-primary',
+         cancelButtonClass: 'btn'
+     })
    ],
    providers: [
       LoginService,

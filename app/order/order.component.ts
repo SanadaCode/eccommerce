@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import 'datatables.net';
 
+
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -19,6 +21,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.getOrder();
+    
   }
 
   async getOrder(){
@@ -29,11 +32,8 @@ export class OrderComponent implements OnInit {
         {
           "columnDefs": [
             { "orderable": false, "targets": 4 }
-          ],
-          
-          
+          ]
         }
-      
       );
   } );
   }
@@ -41,5 +41,4 @@ export class OrderComponent implements OnInit {
   getDetail(id:number){
     this.route.navigateByUrl("order/"+ id);
   }
-
 }
