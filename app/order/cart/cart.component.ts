@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
     private orderService: OrderRestService, public dialog: MatDialog,
     private snackBar: MatSnackBar) { }
 
-  ngOnInit() {
+   ngOnInit() {
     this.getCart()
     this.theOrders.subscribe(
       data => {
@@ -36,10 +36,14 @@ export class CartComponent implements OnInit {
       }
     )
     if (localStorage.getItem("add") != null) {
-      this.orderService.confirmOrder();
+      if(localStorage.getItem("firstName") != null){
+        this.orderService.confirmOrder().then( () =>
+          this.route.navigateByUrl("/")
+        );
+        
+      }
       localStorage.removeItem("add");
     }
-
   }
 
   async getCart() {
@@ -49,37 +53,44 @@ export class CartComponent implements OnInit {
   }
 
   async onConfirm() {
-    Sweet.fire({
-      title: 'Conferma Carrello',
-      text: "Sei sicuro?",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, conferma ordine!'
-    }).then(async (result) => {
-      if (result.value) {
-        await await this.orderService.confirmOrder().then((res) => {
-          Sweet.fire(
-            'Successo!',
-            res.message,
-            'success'
-          )
-          this.getCart(); 
-          this.route.navigateByUrl("/");
-        },
-          (rej) => {
-            Sweet.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: rej.error.message,
-              showConfirmButton: false,
-              timer: 1500
+    let user = localStorage.getItem("firstName");
+    if(user != null){
+      Sweet.fire({
+        title: 'Conferma Carrello',
+        text: "Sei sicuro?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, conferma ordine!'
+      }).then(async (result) => {
+        if (result.value) {
+          await this.orderService.confirmOrder().then((res) => {
+            Sweet.fire(
+              'Successo!',
+              res.message,
+              'success'
+            )
+            this.getCart(); 
+            this.route.navigateByUrl("/");
+          },
+            (rej) => {
+              Sweet.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: rej.error.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
+              this.getCart();
             })
-            this.getCart();
-          })
-      }
-    })
+        }
+      })
+    }else{
+      localStorage.setItem("add", "true");
+      this.route.navigateByUrl("profile/edit");
+    }
+
   }
 
   async changeQuantity(order: OrderDetail) {

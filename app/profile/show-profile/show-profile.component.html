@@ -1,42 +1,24 @@
-<div class="alert alert-danger" *ngIf="info==null && flag">
+<div class="alert alert-danger contenitore" *ngIf="info==null && flag">
 <span >Profilo non disponibile</span>
 </div>
 <div class="d-flex justify-content-center align-items-center">
-  <table class="table table-responsive" *ngIf="info!=null">
-    <tbody>
-      <tr>
-        <th scope="row">Nome</th>
-        <td>{{info.firstName}}</td>
-      </tr>
-      <tr>
-        <th scope="row">Cognome</th>
-        <td>{{info.lastName}}</td>
-      </tr>
-      <tr>
-          <th scope="row">Paese</th>
-          <td>{{info.country}}</td>
-      </tr>
-      <tr>
-          <th scope="row">Città</th>
-          <td>{{info.city}}</td>
-      </tr>
-      <tr>
-          <th scope="row">Indirizzo</th>
-          <td>{{info.address}}</td>
-      </tr>
-      <tr>
-          <th scope="row">Cap</th>
-          <td>{{info.cap}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <br>
+    <div class="card" style="width: 18rem;" *ngIf="info!=null">
+        <img class="card-img-top" style="width:100%" src="https://turismosurdelosrios.cl/wp-content/uploads/2018/02/male-user.png" alt="Card image cap">
+        <div class="card-body" style="text-align: center" id="centro">
+          <h5 class="card-title">Info</h5>
+          <p class="card-text">{{info.lastName}} {{info.firstName}}</p>
+          <p class="card-text">{{info.country}}</p>
+          <p class="card-text">{{info.city}}</p>
+          <p class="card-text">{{info.address}}</p>
+          <p class="card-text">{{info.cap}}</p>
+          <button routerLink="../edit"
+          >Edit |Create</button>
+        </div>
+      </div>
 </div>
-<div class="d-flex justify-content-center">
-<button type="button" 
-class="btn btn-primary" 
-routerLink="../edit"
->Edit |Create</button>
+<div class="d-flex justify-content-center" *ngIf="info==null && flag">
+ <button routerLink="../edit"
+          >Edit |Create</button>
 </div>
 
   

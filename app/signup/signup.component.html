@@ -34,9 +34,9 @@
                 || loginForm.get('confirmPass').touched)">
                 <span style="color:red" *ngIf="success">Utente già iscritto</span>
                 <br *ngIf="success">
-                <div *ngIf="logingForm != undefined">
-                    <span style="color:red" *ngIf="loginForm.errors.confirm 
-                    ">Le due password non corrispondono!</span>
+                <div *ngIf="loginForm.errors != null">
+                    <span style="color:red" *ngIf="loginForm.errors.confirm  && (loginForm.get('confirmPass').dirty 
+                    || loginForm.get('confirmPass').touched) && (loginForm.get('pass').dirty || loginForm.get('pass').touched)">Le due password non corrispondono!</span>
                     <br *ngIf="loginForm.errors.confirm  && (loginForm.get('confirmPass').dirty 
                     || loginForm.get('confirmPass').touched) && (loginForm.get('pass').dirty || loginForm.get('pass').touched)">
                 </div>

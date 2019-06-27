@@ -54,7 +54,7 @@ import { SignupComponent } from './signup/signup.component';
       OrderSellerComponent,
       DialogComponent,
       ConfirmComponent,
-      UploadComponent
+      UploadComponent,
    ],
    imports: [
       BrowserModule,

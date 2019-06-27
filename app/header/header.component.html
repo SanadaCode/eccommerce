@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#" routerLinkActive="active" routerLink="/" (click)="reloadProduct()" >Ecommerce</a>
+  <a class="navbar-brand" href="#" routerLinkActive="active" routerLink="/" (click)="reloadProduct()" ><i class="fa fa-home"></i>Ecommerce</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
     aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -32,7 +32,7 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" routerLink="login">Login</a>
           <a class="dropdown-item" *ngIf="guard.canActivate()" routerLink="profile/show">Profilo</a>
-          <a class="dropdown-item" *ngIf="sellerGuard.canActivate()" style="cursor:pointer"  routerLink="/edit"  (click)="addProduct()">
+          <a class="dropdown-item" *ngIf="sellerGuard.canActivate()" style="cursor:pointer" (click)="addProduct()">
             Aggiungi prodotto
           </a>
           <a class="dropdown-item" *ngIf="guard.canActivate()" style="cursor:pointer"

@@ -26,7 +26,6 @@ const routes: Routes = [
       { path: "edit", component: EditProfileComponent }
     ]
   },
-  
   { path: "edit", component: ProductEditComponent , canActivate: [SellerGuardService] },
   {
     path: "", component: HomeComponent, children: [

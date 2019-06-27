@@ -7,6 +7,6 @@
     <p>Quantità: {{product.quantity}}</p>
     <a class="btn btn-primary" *ngIf="!productData.seller" (click)="addToCart()">Aggiungi al carrello</a>
     <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="editProduct()">Modifica</a>
-    <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="deleteProduct()">Cancella</a>
+    <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="deleteProduct()"><i class="fa fa-trash"></i></a>
   </div>
 </div>

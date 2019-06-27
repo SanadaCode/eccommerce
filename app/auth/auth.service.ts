@@ -113,7 +113,7 @@ export class AuthService implements OnInit{
       data => {this.userData.info=data,
         localStorage.setItem("firstName", this.userData.info.firstName);
         localStorage.setItem("lastName", this.userData.info.firstName);
-        if(localStorage.get("add") !=null){
+        if(localStorage.getItem("add") !=null){
           this.router.navigateByUrl("cart");
         }else{
           this.router.navigateByUrl("profile/show");

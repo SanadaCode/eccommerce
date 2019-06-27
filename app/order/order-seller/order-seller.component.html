@@ -1,10 +1,10 @@
-<div class="alert alert-danger mt-2" *ngIf="(orders==null || orders.length == 0) && flag">
+<div class="alert alert-danger mt-2"  *ngIf="(orders==null || orders.length == 0) && flag">
     <span >Ordini non disponibili</span>
 </div>
-<h1 class="display-1" *ngIf="orders!=null && orders.length != 0" >Oridini</h1>
+<h1 class="display-1" *ngIf="orders!=null && orders.length != 0" style="text-align:center">Oridini</h1>
 <hr *ngIf="orders!=null && orders.length != 0">
-<table class="" id="table_order" *ngIf="orders!=null && orders.length != 0" >
-  <thead class="thead-dark">
+<table class="table table-striped table-bordered dt-responsive nowrap" id="table_order" *ngIf="orders!=null && orders.length != 0" >
+  <thead >
     <tr>
       <th scope="col">#</th>
       <th scope="col">Nome Prodotto</th>
@@ -14,13 +14,13 @@
       <th scope="col">Paese</th>
       <th scope="col">Città</th>
       <th scope="col">Indirizzo</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <th scope="col">Spedisci</th>
+      <th scope="col">Cancella</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let order of orders; let i= index">
-      <td>{{i+1}}</td>
+      <td class="text-align">{{i+1}}</td>
       <td>{{order.name}}</td>
       <td>{{order.date | date: 'd/MM/yyyy'}}</td>
       <td>{{order.quantity}}</td>
@@ -28,8 +28,8 @@
       <td>{{order.country}}</td>
       <td>{{order.city}}</td>
       <td>{{order.address}}</td>
-      <td><button class="btn btn-primary" (click)="sendProduct(order.id)" *ngIf="order.state == 'Confermato'">Invia</button></td>
-      <td><button class="btn btn-primary" (click)="deleteProduct(order.id)"  *ngIf="order.state == 'Confermato'">Annulla</button></td>
+      <td><button class="btn btn-primary" (click)="sendProduct(order.id)" *ngIf="order.state == 'Confermato'">Spedisci</button></td>
+      <td><button class="btn btn-primary" (click)="deleteProduct(order.id)"  *ngIf="order.state == 'Confermato'"><i class="fa fa-trash"></i> </button></td>
     </tr>
   </tbody>
 </table>

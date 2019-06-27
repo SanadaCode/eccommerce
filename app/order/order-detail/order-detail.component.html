@@ -2,7 +2,7 @@
   <span>Nessun Prodotto nell'ordine!</span>
 </div>
 <div class="table table-responsive mt-4" *ngIf="orders!=null && orders.length != 0 ">
-  <h1 class="display-1">Dettaglio Ordine</h1>
+  <h1 class="display-1" style="text-align:center">Dettaglio Ordine</h1>
   <hr>
   <div *ngFor="let order of orders">
     <div class="card mb-3" style="max-width: 900px;">
@@ -21,7 +21,7 @@
                 <p class="card-text">Stato: {{order.state}}</p>
               </div>
               <div class="col">
-                <a class="btn btn-primary m-2" (click)="deleteProduct(order)" *ngIf="order.state =='Confermato'">Annulla</a>
+                <a class="btn btn-primary m-2" (click)="deleteProduct(order)" *ngIf="order.state =='Confermato'"><i class="fa fa-trash"></i> </a>
               </div>
             </div>
           </div>

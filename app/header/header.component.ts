@@ -45,7 +45,6 @@ export class HeaderComponent implements OnInit {
   getOrder(){
     if(this.user.isSeller()){
       this.router.navigateByUrl("/vendor")
-      console.log("qui")
     }else{
       this.router.navigateByUrl("order")
     }

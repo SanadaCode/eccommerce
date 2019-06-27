@@ -31,10 +31,12 @@ export class OrderComponent implements OnInit {
       $('#dataTable').DataTable(
         {
           "columnDefs": [
-            { "orderable": false, "targets": 4 }
+            { "orderable": false, "targets": 4 },
+            {"className": "dt-center", "targets": "_all"}
           ]
         }
-      );
+        );
+       
   } );
   }
 
