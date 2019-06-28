@@ -7,3 +7,7 @@ table.dataTable{border-collapse:collapse !important;}
 .table > tbody > tr > td {
       vertical-align: middle;
  }
+
+ div[class="card-columns"]{
+      text-align: center;
+ }

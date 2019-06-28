@@ -23,6 +23,11 @@ export class ProductEditComponent implements OnInit {
   products: Product[];
   name: string;
   flag: boolean;
+  fileData;
+  fileName: string = "Scegli un'immmagine";
+  type:string;
+  base64;
+  titolo="Aggiungi prodotto";
 
   constructor(private productData: ProductsDataService,
     private productService: ProductRestService,
@@ -32,19 +37,21 @@ export class ProductEditComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe( async (params) => {
       if (params['name']) {
+        this.titolo="Edita prodotto";
         try{
           this.product= await this.productService.findProductByName(params['name']);
           this.productForm.controls["productName"].setValue(this.product.productName)
           this.productForm.controls["desc"].setValue(this.product.desc)
           this.productForm.controls["quantity"].setValue(this.product.quantity)
           this.productForm.controls["productPrice"].setValue(this.product.productPrice)
-          this.productForm.controls["img"].setValue(this.product.img)
+          this.productForm.controls["img"].clearValidators();
         }catch(error){
           console.log(error)
         }
         this.name=params["name"];
         this.flag=true;
       }else{
+        this.titolo="Aggiungi prodotto";
         this.product = new Product();
         this.flag=false;
       }
@@ -52,13 +59,52 @@ export class ProductEditComponent implements OnInit {
   )
   }
 
-  onSubmit() {
+  async fileProgress(e) {
+    let file = e.target.files[0]
+    // Read in the image file as a data URL.
+    this.fileData = file;
+    let index= file.name.indexOf(".");
+    this.fileName= file.name.substring(-1,index);
+    this.type=file.name.substring(index +1 ,file.name.length)
+    await this.readUploadedImage(this.fileData).then(
+      data => {
+        this.base64 = data;
+      });
+  }
+  
+ readUploadedImage = (inputFile) => {
+    const temporaryFileReader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+      temporaryFileReader.onload = () => {
+        resolve(temporaryFileReader.result);
+      };
+      temporaryFileReader.onerror = () => {
+        temporaryFileReader.abort();
+        reject(new DOMException("Problem parsing input file."));
+      };
+      temporaryFileReader.readAsDataURL(inputFile);
+    });
+  };
+
+  async onSubmit() {
     event.preventDefault()
+    let product = new Product();
+    product = this.productForm.value;
+    console.log(this.productForm.controls["img"].value)
+    if(this.productForm.controls["img"].value != null 
+    && this.productForm.controls["img"].value != undefined 
+    && this.productForm.controls["img"].value !=""){
+      await this.readUploadedImage(this.fileData).then(
+        data => {
+          this.base64 = data;
+        });
+      product.img=this.base64;
+    }
     if (this.flag) {
-      this.productData.editProduct(this.productForm.value, this.productForm.controls["productName"].value);
+      this.productData.editProduct(product, this.productForm.controls["productName"].value, this.fileName , this.type);
     } else {
-      this.productData.addProduct(this.productForm.value);
+      this.productData.addProduct(product, this.fileName , this.type);
     }
   }
-
 }

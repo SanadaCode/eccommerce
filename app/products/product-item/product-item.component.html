@@ -1,6 +1,6 @@
 <div class="card text-center " style="width: 16rem;">
   <h5 class="card-title">{{product.productName}}</h5>
-  <img class="card-img-top" style="max-height: 320px; min-height: 320px;" src="{{product.img}}" alt="Card image cap">
+  <img class="card-img-top" style="max-height: 320px; min-height: 320px;"  [src]="transform()" alt="Card image cap">
   <div class="card-body">
     <p class="card-text">{{product.desc}}</p>
     <p>Prezzo: {{product.productPrice}}€</p>

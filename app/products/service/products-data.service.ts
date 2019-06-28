@@ -7,6 +7,7 @@ import { ProductRestService } from './product-rest.service';
 import { Router } from '@angular/router';
 
 import Sweet from 'sweetalert2/dist/sweetalert2.js';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -81,18 +82,19 @@ export class ProductsDataService {
     }
   }
 
-  editProduct(product: Product, name: string) {
+  editProduct(product: Product, name: string, fileName: string , type:string) {
     if (this.userData.isSeller()) {
-      this.productService.editProduct(this.auth.getId(), name, product).subscribe(
+      console.log("qua" +fileName + type)
+      this.productService.editProduct(this.auth.getId(), name, product, fileName, type).subscribe(
         data => {this.editMode=false; this.seller=false;this.router.navigateByUrl("/")},
         error => alert(error.message)
       )
     }
   }
 
-  addProduct(product: Product) {
+  addProduct(product: Product, name:string , type:string) {
     if (this.userData.isSeller()) {
-      this.productService.addProduct(this.auth.getId(), product).subscribe(
+      this.productService.addProduct(this.auth.getId(), product, name, type).subscribe(
         data => this.router.navigateByUrl("/"),
         error => alert(error.message)
       )

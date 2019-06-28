@@ -43,18 +43,23 @@ export class ProductRestService {
     return this.http.delete<any>(url,{params: params});
   }
 
-  editProduct(id: number, name:string, product: Product){
+  editProduct(id: number, name:string, product: Product, fileName:string , type:string){
     let url: string = this.url + "product/edit";
     let params = new HttpParams()
     .append('id', id.toString())
-    .append('name', name);
+    .append('name', name)
+    .append('nameFile', fileName)
+    .append("type", type);
+    console.log(fileName + type)
     return this.http.put<any>(url,product,{params: params});
   }
 
-  addProduct(id: number, product: Product){
+  addProduct(id: number, product: Product, name:string , type:string){
     let url: string = this.url + "product/add";
     let params = new HttpParams()
-    .append('id', id.toString());
+    .append('id', id.toString())
+    .append("name", name)
+    .append("type", type);
     return this.http.post<any>(url,product,{params: params});
   }
 

@@ -1,7 +1,7 @@
 
 <br>
-<div  class="continer" *ngIf="products != null">
-    <div *ngIf="!isSeller" class="card-columns">
+<div  class="container" *ngIf="products != null">
+    <div *ngIf="!isSeller" class="card-columns" >
         <app-product-item
         *ngFor="let productEl of products"
         [product]="productEl"
@@ -11,7 +11,7 @@
     </div>
   <div class="row" *ngIf="isSeller ">
     <div class="col-10" >
-      <div class="card-columns" *ngIf="isSeller && !isTable">
+      <div class="card-columns"  *ngIf="isSeller && !isTable">
           <app-product-item
           *ngFor="let productEl of products"
           [product]="productEl"
@@ -36,7 +36,7 @@
               <tbody>
                 <tr *ngFor="let product of products; let i=index">
                   <td>{{i+1}}</td>
-                  <td><img style="max-height: 100px; min-height: 100px;" src="{{product.img}}"></td>
+                  <td><img style="max-height: 100px; min-height: 100px; max-width: 100px;" src="{{'data:image/png;base64,' + product.img}}"></td>
                   <td>{{product.productName}}</td>
                   <td>{{product.desc}}</td>
                   <td>{{product.productPrice}}</td>

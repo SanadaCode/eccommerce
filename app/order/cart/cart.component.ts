@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { OrderDetail } from 'src/app/model/order-detail';
 import Sweet from 'sweetalert2/dist/sweetalert2.js';
 import { OrderRestService } from '../service/order-rest.service';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -22,7 +22,8 @@ export class CartComponent implements OnInit {
 
   constructor(private route: Router,
     private orderService: OrderRestService, public dialog: MatDialog,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private sanitizer:DomSanitizer) { }
 
    ngOnInit() {
     this.getCart()
@@ -128,6 +129,10 @@ export class CartComponent implements OnInit {
           })
         })
     }
+  }
+
+  transform(img:string){
+    return this.sanitizer.bypassSecurityTrustResourceUrl( 'data:image/jpg;base64,' + img);
   }
 
   async deleteProduct(name: string) {

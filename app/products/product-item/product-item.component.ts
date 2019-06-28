@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { DialogComponent } from 'src/app/material/dialog/dialog.component';
 import { Product } from 'src/app/model/product';
 import { OrderRestService } from 'src/app/order/service/order-rest.service';
-import { ProductsDataService } from '../service/products-data.service';
 import Sweet from 'sweetalert2/dist/sweetalert2.js';
+import { ProductsDataService } from '../service/products-data.service';
+
 
 @Component({
   selector: 'app-product-item',
@@ -22,10 +23,15 @@ export class ProductItemComponent implements OnInit {
     private orderService: OrderRestService,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private sanitizer:DomSanitizer ) {
   }
 
   ngOnInit() {
+  }
+  
+  transform(){
+    return this.sanitizer.bypassSecurityTrustResourceUrl( 'data:image/jpg;base64,' +this.product.img);
   }
 
   editProduct() {
