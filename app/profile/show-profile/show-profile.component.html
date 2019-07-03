@@ -3,7 +3,8 @@
 </div>
 <div class="d-flex justify-content-center align-items-center">
     <div class="card" style="width: 18rem;" *ngIf="info!=null">
-        <img class="card-img-top" style="width:100%" src="https://turismosurdelosrios.cl/wp-content/uploads/2018/02/male-user.png" alt="Card image cap">
+        <img *ngIf="info.image == null" class="card-img-top" style="width:100%" src="https://turismosurdelosrios.cl/wp-content/uploads/2018/02/male-user.png" alt="Card image cap">
+        <img *ngIf="info.image != null" class="card-img-top image-height" style="width:100%" [src]="transform()" alt="Card image cap">
         <div class="card-body" style="text-align: center" id="centro">
           <h5 class="card-title">Info</h5>
           <p class="card-text">{{info.lastName}} {{info.firstName}}</p>

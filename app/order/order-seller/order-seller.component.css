@@ -3,3 +3,20 @@ table.dataTable{border-collapse:collapse !important;}
 .table > tbody > tr > td {
     vertical-align: middle;
 }
+
+
+.color-red{
+    color:red;
+}
+
+.color-green{
+    color:green;
+}
+
+.color-orange{
+    color:orange;
+}
+
+.color-yellow{
+    color:blue;
+}

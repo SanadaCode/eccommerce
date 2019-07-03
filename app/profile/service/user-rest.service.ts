@@ -24,9 +24,11 @@ export class UserRestService {
     return this.http.post<any>(url,info,{ params: params });
   }
 
-  editUser(id: number, info: Info) {
+  editUser(id: number, info: Info , name: string , type: string) {
     let url: string = this.url + "user/edit";
-    let params = new HttpParams().append('id', id.toString());
+    let params = new HttpParams().append('id', id.toString())
+    .append('name', name)
+    .append('type', type);
     return this.http.put<any>(url,info,{ params: params });
   }
 

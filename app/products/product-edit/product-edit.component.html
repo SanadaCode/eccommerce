@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label>Prezzo:</label>
-                    <input type="number" class="form-control" placeholder="Prize" formControlName="productPrice">
+                    <input type="number" class="form-control" placeholder="Prize" formControlName="productPrice" min='0'>
                     <span style="color:red" *ngIf="!productForm.get('productPrice').valid
                     && (productForm.get('productPrice').dirty || productForm.get('productPrice').touched)">
                         Inserisci un prezzo valido!</span>
@@ -26,28 +26,40 @@
                     && (productForm.get('desc').dirty || productForm.get('desc').touched)">
                         Inserisci una descrizione valida!</span>
                 </div>
-                <div class="custom-file">
-                    <input type="file" accept="image/png , image/jpeg , image/jpg" class="custom-file-input" placeholder="Immagine URL"
-                        formControlName="img" (change)="fileProgress($event)">
-                    <label class="custom-file-label" for="customFile">{{fileName}}</label>
+                <label>Immagine prodotto:</label>
+                <div class="mb-3">
+                    <div class="input-group ">
+                        <div class="custom-file">
+                            <input type="file" accept="image/png , image/jpeg , image/jpg" class="custom-file-input" placeholder="Immagine URL"
+                            formControlName="img" (change)="fileProgress($event)">
+                            <label class="custom-file-label" for="customFile">{{fileName |slice:0:50}}</label>
+                        </div>
+                    </div>
                     <span style="color:red" *ngIf="!productForm.get('img').valid
                     && (productForm.get('img').dirty || productForm.get('img').touched)">
-                        Inserisci un URL valido!</span>
+                    Inserisci un immagine corretta! (minimo 320x254)</span>
                 </div>
                 <div class="form-group">
-                    <label>quantiy:</label>
-                    <input type="number" class="form-control" placeholder="quantity" formControlName="quantity">
+                    <label>Quantità:</label>
+                    <input type="number" class="form-control" placeholder="quantity" formControlName="quantity" min='0'>
                     <span style="color:red" *ngIf="!productForm.get('quantity').valid
                     && (productForm.get('quantity').dirty || productForm.get('quantity').touched)">
-                        Inserisci una quantità valida!</span>
+                    Inserisci una quantità valida!</span>
                 </div>
                 <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
+                <button type="submit" class="btn btn-danger ml-2" (click)="reset()"><i class="fas fa-undo"></i> Reset</button>
+                <a routerLink="/seller" class="btn btn-link">Indietro</a>
             </form>
         </div>
     </div>
     <div class="col-5">
         <aside>
-                <img src="{{this.base64}}" style="max-width:30em;max-height:25em;" class="img-fluid" alt="Responsive image">
+                <img *ngIf="base64 != null" src="{{this.base64}}" 
+                style="max-width:30em;max-height:25em;" 
+                class="img-fluid" 
+                alt="Immagini prodotto"
+                id="img"
+                >
         </aside>
     </div>
 </div>

@@ -5,7 +5,7 @@ import { LoginService } from '../login/service/login.service';
 import { Info } from '../model/info';
 import { UserDataService } from '../profile/service/user-data-service.service';
 import { UserRestService } from '../profile/service/user-rest.service';
-
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +38,7 @@ export class AuthService implements OnInit{
         this.userData.role=role;
         this.userData.logedIn=true;
         this.userData.info.lastName=surname;
+        this.userData.info.image=localStorage.getItem("image");
         this.userData.id=parseInt(id);
         this.succ.next(false);
       }
@@ -55,9 +56,11 @@ export class AuthService implements OnInit{
       this.userData.info=new Info();
       this.userData.info.firstName=data.name;
       this.userData.info.lastName=data.surname;
+      this.userData.info.image=data.image;
       if(data.surname != null){
         localStorage.setItem("firstName", data.name);
         localStorage.setItem("lastName", data.surname);
+        localStorage.setItem("image", data.image)
       }
       this.userData.role=data.cod;
       this.userData.logedIn=true;
@@ -87,7 +90,7 @@ export class AuthService implements OnInit{
         this.succ.next(false);
         this.router.navigateByUrl('/');
       },
-      error => this.succ.next(true)
+      error => this.message("Utente già iscritto")
       );
   }
   
@@ -100,8 +103,8 @@ export class AuthService implements OnInit{
     )
   }
 
-  profileEdit(info: Info){
-    this.userService.editUser(this.id,info).subscribe(
+  profileEdit(info: Info ,name:string , type:string){
+    this.userService.editUser(this.id,info, name, type).subscribe(
       data => {this.userData.info=data;
         this.router.navigateByUrl("profile/show")
         }
@@ -162,5 +165,16 @@ export class AuthService implements OnInit{
   getId(){
     return this.id;
   }
+
+  message(message:string){
+    Sweet.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: message,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
 }
     

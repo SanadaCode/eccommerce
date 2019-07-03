@@ -6,7 +6,6 @@ import * as $ from 'jquery';
 import 'datatables.net';
 
 
-
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -32,7 +31,8 @@ export class OrderComponent implements OnInit {
         {
           "columnDefs": [
             { "orderable": false, "targets": 4 },
-            {"className": "dt-center", "targets": "_all"}
+            {"className": "dt-center", "targets": "_all"},
+            { type: 'date', targets: 1 }
           ]
         }
         );

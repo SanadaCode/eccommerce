@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Product } from 'src/app/model/product';
 import { UserDataService } from 'src/app/profile/service/user-data-service.service';
-import { ProductRestService } from './product-rest.service';
-import { Router } from '@angular/router';
-
 import Sweet from 'sweetalert2/dist/sweetalert2.js';
-import { HttpParams } from '@angular/common/http';
+import { ProductRestService } from './product-rest.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -36,16 +35,16 @@ export class ProductsDataService {
 
   reloadProduct() {
     if(!this.userData.isLoggedIn()){
-      this.productService.getAllProducts(this.auth.getId()).subscribe(
+      this.productService.getAllProducts(this.auth.getId()).then(
         data => { this.theProducts.next(data), this.seller=false},
-        error => console.log(error)
+        error => this.message(error.message)
         )
       }else if(this.userData.isSeller()){
         this.searchProductBySeller();
       }else{
-        this.productService.getAllProducts(this.auth.getId()).subscribe(
+        this.productService.getAllProducts(this.auth.getId()).then(
         data => { this.theProducts.next(data), this.seller=false},
-        error => console.log(error)
+        error => this.message(error.error.message)
       )
     }
 
@@ -64,11 +63,10 @@ export class ProductsDataService {
       this.productService.getProductByName(name).subscribe(
         data => {
         this.products = [];
-          this.product.next(data[0]);
           this.theProducts.next(data);
           this.seller= false;
         },
-        error => alert(error.message)
+        error => this.message(error.error.message)
       )
     }
   }
@@ -77,17 +75,16 @@ export class ProductsDataService {
     if (this.userData.isSeller()) {
       this.productService.searchProductBySeller(this.auth.getId()).subscribe(
         data => { this.theProducts.next(data), this.seller= true, this.router.navigateByUrl("/seller")},
-        error => console.log(error.message)
+        error => this.message(error.error.message)
       )
     }
   }
 
   editProduct(product: Product, name: string, fileName: string , type:string) {
     if (this.userData.isSeller()) {
-      console.log("qua" +fileName + type)
       this.productService.editProduct(this.auth.getId(), name, product, fileName, type).subscribe(
         data => {this.editMode=false; this.seller=false;this.router.navigateByUrl("/")},
-        error => alert(error.message)
+        error => this.message(error.error.message)
       )
     }
   }
@@ -96,15 +93,16 @@ export class ProductsDataService {
     if (this.userData.isSeller()) {
       this.productService.addProduct(this.auth.getId(), product, name, type).subscribe(
         data => this.router.navigateByUrl("/"),
-        error => alert(error.message)
+        error => this.message(error.error.message)
       )
     }
   }
 
   deleteProduct( name: string) {
     if (this.userData.isSeller()) {
-      this.productService.deleteProduct(this.auth.getId(), name).subscribe(
+      this.productService.deleteProduct(this.auth.getId(), name).then(
         data => {
+          this.reloadProduct();
           Sweet.fire({
             type: 'success',
             title: 'Successo',
@@ -112,7 +110,6 @@ export class ProductsDataService {
             showConfirmButton: false,
             timer: 1500
           })
-          this.router.navigateByUrl("/")
         }),
         error => {
           Sweet.fire({
@@ -124,6 +121,16 @@ export class ProductsDataService {
           })
         }
     }
+  }
+
+  message(message:string){
+    Sweet.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: message,
+      showConfirmButton: false,
+      timer: 1500
+    })
   }
 
 }

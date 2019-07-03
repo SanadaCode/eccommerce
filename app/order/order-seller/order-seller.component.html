@@ -24,11 +24,15 @@
       <td>{{order.name}}</td>
       <td>{{order.date | date: 'd/MM/yyyy'}}</td>
       <td>{{order.quantity}}</td>
-      <td>{{order.state}}</td>
+      <td 
+      [ngClass]="{'color-green': order.state == 'Confermato',  
+      'color-red': order.state == 'Annullato',
+      'color-yellow': order.state == 'Spedito',
+      'color-orange': order.state == 'Non disponibile'}">{{order.state}}</td>
       <td>{{order.country}}</td>
       <td>{{order.city}}</td>
       <td>{{order.address}}</td>
-      <td><button class="btn btn-primary" (click)="sendProduct(order.id)" *ngIf="order.state == 'Confermato'">Spedisci</button></td>
+      <td><button class="btn btn-primary" (click)="sendProduct(order.id)" *ngIf="order.state == 'Confermato'"><i class="fas fa-truck"></i></button></td>
       <td><button class="btn btn-primary" (click)="deleteProduct(order.id)"  *ngIf="order.state == 'Confermato'"><i class="fa fa-trash"></i> </button></td>
     </tr>
   </tbody>

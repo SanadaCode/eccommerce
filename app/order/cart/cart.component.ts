@@ -98,6 +98,7 @@ export class CartComponent implements OnInit {
     const { value: quantity } = await Sweet.fire({
       title: 'Inserisci la quantità!',
       input: 'number',
+      inputValue:order.quantity,
       inputAttributes: {
         min: 1,
       },

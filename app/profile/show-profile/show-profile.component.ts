@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Info } from 'src/app/model/info';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserDataService } from '../service/user-data-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-show-profile',
@@ -14,16 +15,19 @@ export class ShowProfileComponent implements OnInit {
   info: Info = null;
 
   constructor(private auth: AuthService,
-    private user:UserDataService) { 
+    private user:UserDataService,
+    private sanitizer:DomSanitizer) { 
       this.flag=false;
       this.user.infoUser.subscribe(
         data => {this.info=data;
-          console.log(this.info)
         this.flag = true}
       );
       this.auth.profile();
     }
 
+    transform(){
+      return this.sanitizer.bypassSecurityTrustResourceUrl( 'data:image/jpg;base64,' +this.info.image);
+    }
 
   ngOnInit() {
     if(localStorage.getItem("firstName") == null){

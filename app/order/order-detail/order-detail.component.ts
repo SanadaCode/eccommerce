@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { ConfirmComponent } from 'src/app/material/conferm/conferm.component';
 import { OrderDetail } from 'src/app/model/order-detail';
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
 import { OrderRestService } from '../service/order-rest.service';
-import Sweet from 'sweetalert2/dist/sweetalert2.js'
 
 @Component({
   selector: 'app-order-detail',
@@ -20,7 +20,8 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderRestService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private sanitizer:DomSanitizer) { }
 
   ngOnInit() {
     this.getOrder();
@@ -28,6 +29,10 @@ export class OrderDetailComponent implements OnInit {
       data => this.orders = data
     )
 
+  }
+
+  transform(img:string){
+    return this.sanitizer.bypassSecurityTrustResourceUrl( 'data:image/jpg;base64,' + img);
   }
 
   getOrder() {

@@ -26,7 +26,7 @@ export class ProductRestService {
 
   getAllProducts(id: number) {
     let url: string = this.url + "product/list";
-    return this.http.get<any>(url);
+    return this.http.get<any>(url).toPromise();
   }
   
   getProductByName(name:string) {
@@ -40,7 +40,7 @@ export class ProductRestService {
     let params = new HttpParams()
     .append('id', id.toString())
     .append('name', name);
-    return this.http.delete<any>(url,{params: params});
+    return this.http.delete<any>(url,{params: params}).toPromise();
   }
 
   editProduct(id: number, name:string, product: Product, fileName:string , type:string){
@@ -50,7 +50,6 @@ export class ProductRestService {
     .append('name', name)
     .append('nameFile', fileName)
     .append("type", type);
-    console.log(fileName + type)
     return this.http.put<any>(url,product,{params: params});
   }
 

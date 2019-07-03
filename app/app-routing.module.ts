@@ -34,9 +34,9 @@ const routes: Routes = [
       { path: "seller", component: ProductsComponent , canActivate: [SellerGuardService] }
     ]
   },
+  { path: "vendor", component: OrderSellerComponent},
   { path: "login", component: LoginComponent },
   { path: "order", component: OrderComponent},
-  { path: "vendor", component: OrderSellerComponent},
   { path: "order/:id", component: OrderDetailComponent},
   { path: "cart", component: CartComponent},
   { path: "edit", component: ProductEditComponent , canActivate: [SellerGuardService] },

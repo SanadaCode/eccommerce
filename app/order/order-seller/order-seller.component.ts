@@ -35,11 +35,9 @@ export class OrderSellerComponent implements OnInit {
   }
   
   async getOrder(){
-    console.log(this.dataTable);
     let data = await this.orderService.getOrderOfSeller();
     this.theOrders.next(data);
     if(this.dataTable) {
-      console.log("qui")
       this.dataTable=false;
       $(document).ready( function () {
         this.table=$('#table_order').DataTable(
@@ -47,6 +45,7 @@ export class OrderSellerComponent implements OnInit {
             "columnDefs": [
               { "orderable": false, "targets": 8 },
               { "orderable": false, "targets": 9},
+              { type: 'date', targets: 2},
               {"className": "dt-center", "targets": "_all"}
             ]
           }
@@ -60,6 +59,7 @@ export class OrderSellerComponent implements OnInit {
             "columnDefs": [
               { "orderable": false, "targets": 8 },
               { "orderable": false, "targets": 9},
+              { type: 'date', targets: 2},
               {"className": "dt-center", "targets": "_all"}
             ]
           }
@@ -100,9 +100,6 @@ export class OrderSellerComponent implements OnInit {
           })
       }
     })
-   
-
-    
   }
 
   async deleteProduct(id:number){
@@ -135,8 +132,6 @@ export class OrderSellerComponent implements OnInit {
             this.getOrder();
           })
       }
-
     })
-   
   }
 }

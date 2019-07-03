@@ -1,12 +1,14 @@
-<div class="card text-center " style="width: 16rem;">
-  <h5 class="card-title">{{product.productName}}</h5>
-  <img class="card-img-top" style="max-height: 320px; min-height: 320px;"  [src]="transform()" alt="Card image cap">
-  <div class="card-body">
-    <p class="card-text">{{product.desc}}</p>
-    <p>Prezzo: {{product.productPrice}}€</p>
-    <p>Quantità: {{product.quantity}}</p>
-    <a class="btn btn-primary" *ngIf="!productData.seller" (click)="addToCart()">Aggiungi al carrello</a>
-    <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="editProduct()">Modifica</a>
-    <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="deleteProduct()"><i class="fa fa-trash"></i></a>
+<div class="col-4 mb-4">
+  <div class="card text-center" style="width: 16rem;">
+    <h5 class="card-title">{{product.productName}}</h5>
+    <img class="card-img-top" style="max-height: 320px; min-height: 320px;"  [src]="transform()" alt="Card image cap">
+    <div class="card-body">
+      <p class="card-text">{{product.desc}}</p>
+      <p>Prezzo: {{product.productPrice}}€</p>
+      <p>Quantità: {{product.quantity}}</p>
+      <a class="btn btn-primary" *ngIf="!productData.seller" (click)="addToCart()" style="width: 6em;"><i class="fa fa-cart-plus " ></i></a>
+      <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="editProduct()"><i class="fa fa-edit"></i></a>
+      <a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="deleteProduct()"><i class="fa fa-trash"></i></a>
+    </div>
   </div>
 </div>

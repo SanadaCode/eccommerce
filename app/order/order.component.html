@@ -18,7 +18,11 @@
       <td>{{i+1}}</td>
       <td>{{order.date | date: 'd/MM/yyyy'}}</td>
       <td>{{order.transaction.price}}€</td>
-      <td>{{order.state.desc}}</td>
+      <td 
+      [ngClass]="{'color-orange': order.state.desc == 'confermato',  
+      'color-red': order.state.desc == 'annullato',
+      'color-yellow': order.state.desc == 'spedito',
+      'color-green': order.state.desc == 'completo'}">{{order.state.desc}}</td>
       <td><button class="btn btn-primary" (click)="getDetail(order.id)"><i class="fa fa-search-plus" aria-hidden="true"></i></button></td>
     </tr>
   </tbody>

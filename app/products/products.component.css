@@ -11,3 +11,13 @@ table.dataTable{border-collapse:collapse !important;}
  div[class="card-columns"]{
       text-align: center;
  }
+
+.space{
+      justify-content: space-evenly;
+}
+
+.change-view{
+      display: flex;
+      justify-content: space-evenly;
+}
+

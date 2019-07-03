@@ -6,4 +6,5 @@ export class Info{
     city: string;
     phone: string;
     cap: string;
+    image:String;
 }

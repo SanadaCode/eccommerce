@@ -1,98 +1,64 @@
-<div >
+<div>
     <form [formGroup]="profileForm" (submit)="onSubmit($event)">
         <div class="form-group">
             <label>Nome:</label>
-            <input type="text" 
-            class="form-control" 
-             placeholder="Nome"  
-             formControlName="firstName" 
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('firstName').valid
+            <input type="text" class="form-control" placeholder="Nome" formControlName="firstName">
+            <span style="color:red" *ngIf="!profileForm.get('firstName').valid
             && (profileForm.get('firstName').dirty || profileForm.get('firstName').touched)">
-            Inserisci un nome valido!</span> 
+                Inserisci un nome valido!</span>
         </div>
         <div class="form-group">
-            <label >Cognome:</label>
-            <input type="text" 
-            class="form-control" 
-            placeholder="Cognome"
-            formControlName="lastName"
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('lastName').valid
+            <label>Cognome:</label>
+            <input type="text" class="form-control" placeholder="Cognome" formControlName="lastName">
+            <span style="color:red" *ngIf="!profileForm.get('lastName').valid
             && (profileForm.get('lastName').dirty || profileForm.get('lastName').touched)">
-            Inserisci un cognome valido!</span> 
+                Inserisci un cognome valido!</span>
         </div>
         <div class="form-group">
-            <label >Paese:</label>
-            <input type="text" 
-            class="form-control" 
-            placeholder="paese"
-            formControlName="country"
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('country').valid
+            <label>Paese:</label>
+            <input type="text" class="form-control" placeholder="paese" formControlName="country">
+            <span style="color:red" *ngIf="!profileForm.get('country').valid
             && (profileForm.get('country').dirty || profileForm.get('country').touched)">
-            Inserisci un paese valido!</span> 
+                Inserisci un paese valido!</span>
         </div>
         <div class="form-group">
-            <label >Città:</label>
-            <input type="text" 
-            class="form-control" 
-            placeholder="Città"
-            formControlName="city"
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('city').valid
+            <label>Città:</label>
+            <input type="text" class="form-control" placeholder="Città" formControlName="city">
+            <span style="color:red" *ngIf="!profileForm.get('city').valid
             && (profileForm.get('city').dirty || profileForm.get('city').touched)">
-            Inserisci una città valida!</span> 
+                Inserisci una città valida!</span>
         </div>
         <div class="form-group">
-            <label >Indirizzo:</label>
-            <input type="text" 
-            class="form-control" 
-            placeholder="Indirizzo"
-            formControlName="address"
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('address').valid
+            <label>Indirizzo:</label>
+            <input type="text" class="form-control" placeholder="Indirizzo" formControlName="address">
+            <span style="color:red" *ngIf="!profileForm.get('address').valid
              && (profileForm.get('address').dirty || profileForm.get('address').touched)">
-            Inserisci un indirizzo valido!</span> 
+                Inserisci un indirizzo valido!</span>
         </div>
         <div class="form-group">
-            <label >Cap:</label>
-            <input type="number" 
-            class="form-control" 
-            placeholder="Cap"
-            formControlName="cap"
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('cap').valid
+            <label>Cap:</label>
+            <input type="number" class="form-control" placeholder="Cap" formControlName="cap">
+            <span style="color:red" *ngIf="!profileForm.get('cap').valid
             && (profileForm.get('cap').dirty || profileForm.get('cap').touched)">
-            Inserisci un cap valido!</span> 
+                Inserisci un cap valido!</span>
         </div>
         <div class="form-group">
-            <label >Cellulare:</label>
-            <input type="number" 
-            class="form-control" 
-            placeholder="Cellulare"
-            formControlName="phone"
-            >
-            <span 
-            style="color:red" 
-            *ngIf="!profileForm.get('phone').valid
+            <label>Cellulare:</label>
+            <input type="number" class="form-control" placeholder="Cellulare" formControlName="phone">
+            <span style="color:red" *ngIf="!profileForm.get('phone').valid
             && (profileForm.get('phone').dirty || profileForm.get('phone').touched)">
-            Inserisci un cellulare valido!</span> 
+                Inserisci un cellulare valido!</span>
         </div>
-        <button type="submit" class="btn btn-primary" 
-        [disabled]="!profileForm.valid">Submit</button>
+        <label *ngIf="flag">Immagine profilo:</label>
+        <div *ngIf="flag" class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" accept="image/png , image/jpeg , image/jpg" class="custom-file-input"
+                    placeholder="Immagine URL" formControlName="img" (change)="fileProgress($event)">
+                <label class="custom-file-label" for="customFile">{{fileName | slice:0:50}}</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
+        <button type="submit" class="btn btn-danger ml-2" (click)="reset()"><i class="fas fa-undo"></i> Reset</button>
         <a routerLink="/profile/show" class="btn btn-link">Indietro</a>
     </form>
 </div>

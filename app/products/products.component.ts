@@ -18,8 +18,10 @@ export class ProductsComponent implements OnInit {
   products: Product[];
   isLoggedIn: boolean; //flag per mostrare bottone aggiungi al carrello
   isSeller: boolean = false;
-  dataTable=true;
+  dataTable;
+  flag=true;
   isTable:boolean = false;
+  showMessage:boolean=false;
 
   constructor(private productData: ProductsDataService,
     private userData: UserDataService,
@@ -30,7 +32,26 @@ export class ProductsComponent implements OnInit {
     if (localStorage.getItem("addToCart") != null) {
       if(localStorage.getItem("isLoggedIn") !=null ){
         if(!this.userData.isSeller()){
-          await this.order.addToCart(localStorage.getItem("name"), localStorage.getItem("quantity"));
+          await this.order.addToCart(localStorage.getItem("name"), localStorage.getItem("quantity")).then(
+              (res) => {
+                Sweet.fire(
+                  'Success!',
+                  res.message,
+                  'success'
+                )
+              },
+              (rej) => {
+
+                Sweet.fire({
+                  position:"top-end",
+                  type: 'error',
+                  title: 'Oops...',
+                  text: rej.error.message,
+                  showConfirmButton: false,
+                  timer: 2000
+                }) 
+              });
+         
         }
       }
       localStorage.removeItem("addToCart");
@@ -38,13 +59,21 @@ export class ProductsComponent implements OnInit {
       localStorage.removeItem("quantity");
     }
     if(localStorage.getItem("isTable") != null){
-      this.isTable=true;
+      this.flag=false;
     }
     this.productData.reloadProduct();
     this.products = this.productData.getProducts();
     this.productData.theProducts.subscribe(
       data => {
+        if(localStorage.getItem("isTable") != null){
+          $('#dataTable').DataTable().destroy();
+        }
         this.products = data
+        this.showMessage=true;
+        if(localStorage.getItem("isTable") != null){
+          this.createTable()
+
+        }
         this.isSeller = this.userData.isSeller();
         if (this.userData.isLoggedIn() && !this.userData.isSeller()) {
           this.isLoggedIn = true;
@@ -78,24 +107,44 @@ export class ProductsComponent implements OnInit {
 
   getTable(){
     this.isTable = true;
+    this.flag=false;
     localStorage.setItem("isTable", "true");
       $(document).ready( function () {
-        this.dataTable=false;
-        this.table=$('#dataTable').DataTable(
+        this.flag=false;
+        $('#dataTable').DataTable(
           {
             "columnDefs": [
               { "orderable": false, "targets": 7 },
               { "orderable": false, "targets": 6},
               {"className": "dt-center", "targets": "_all"}
+            
             ]
           }
         );
-        $('#example').removeClass( 'display' ).addClass('table table-striped table-bordered');
+      } );
+  }
+
+
+
+  createTable(){
+      $(document).ready( function () {
+        this.flag=false;
+        $('#dataTable').DataTable(
+          {
+            "columnDefs": [
+              { "orderable": false, "targets": 7 },
+              { "orderable": false, "targets": 6},
+              {"className": "dt-center", "targets": "_all"}
+            
+            ]
+          }
+        );
       } );
   }
 
   getCard(){
     this.isTable = false;
+    this.flag=true;
     localStorage.removeItem("isTable");
   }
 }

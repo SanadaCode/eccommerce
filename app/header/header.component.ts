@@ -5,6 +5,7 @@ import { UserDataService } from '../profile/service/user-data-service.service';
 import { SellerGuardService } from '../auth/seller-guard.service';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -18,9 +19,14 @@ export class HeaderComponent implements OnInit {
     private productService: ProductsDataService,
     private sellerGuard: SellerGuardService,
     private guard: AuthGuardService,
-    private router: Router) { }
+    private router: Router,
+    private sanitizer:DomSanitizer) { }
 
   ngOnInit() {
+  }
+
+  transform(){
+    return this.sanitizer.bypassSecurityTrustResourceUrl( 'data:image/jpg;base64,' +this.user.info.image);
   }
 
   onLogout(event: Event) {

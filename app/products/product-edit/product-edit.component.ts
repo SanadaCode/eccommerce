@@ -5,6 +5,7 @@ import { Product } from 'src/app/model/product';
 import { ProductRestService } from '../service/product-rest.service';
 import { ProductsDataService } from '../service/products-data.service';
 import { SpaceValidator } from 'src/app/validator/space.validator';
+import Sweet from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-product-edit',
@@ -17,8 +18,8 @@ export class ProductEditComponent implements OnInit {
     desc: new FormControl('', [Validators.required, SpaceValidator, Validators.maxLength(500)]),
     quantity: new FormControl('', Validators.min(0)),
     productPrice: new FormControl('', [Validators.required, Validators.min(0)]),
-    img: new FormControl('', [Validators.required, SpaceValidator, Validators.maxLength(1000)])
-  });;
+    img: new FormControl('', [Validators.required])
+  });
   product: Product =null;
   products: Product[];
   name: string;
@@ -26,9 +27,10 @@ export class ProductEditComponent implements OnInit {
   fileData;
   fileName: string = "Scegli un'immmagine";
   type:string;
+  tempBase64;
   base64;
   titolo="Aggiungi prodotto";
-
+  messageError=" Inserisci un immagine minimo di 320x254";
   constructor(private productData: ProductsDataService,
     private productService: ProductRestService,
     private route: ActivatedRoute) {
@@ -45,6 +47,7 @@ export class ProductEditComponent implements OnInit {
           this.productForm.controls["quantity"].setValue(this.product.quantity)
           this.productForm.controls["productPrice"].setValue(this.product.productPrice)
           this.productForm.controls["img"].clearValidators();
+          this.base64='data:image/jpg;base64,' + this.product.img;
         }catch(error){
           console.log(error)
         }
@@ -63,14 +66,32 @@ export class ProductEditComponent implements OnInit {
     let file = e.target.files[0]
     // Read in the image file as a data URL.
     this.fileData = file;
+    this.fileData.witdh;
     let index= file.name.indexOf(".");
     this.fileName= file.name.substring(-1,index);
     this.type=file.name.substring(index +1 ,file.name.length)
     await this.readUploadedImage(this.fileData).then(
       data => {
-        this.base64 = data;
+        var i = new Image();
+        i.onload = () =>{
+          if(i != undefined && (i.width < 254 || i.height <320)){
+            if(!this.flag){
+              this.productForm.controls["img"].setValue('');
+              this.fileName='Scegli immagine';
+              this.base64=null;
+            }
+            this.message(this.messageError);
+          }else{
+            this.base64=data;
+          }
+        }
+        this.tempBase64 = data;
+        i.src=this.tempBase64 ;
+       
       });
   }
+
+  
   
  readUploadedImage = (inputFile) => {
     const temporaryFileReader = new FileReader();
@@ -91,7 +112,6 @@ export class ProductEditComponent implements OnInit {
     event.preventDefault()
     let product = new Product();
     product = this.productForm.value;
-    console.log(this.productForm.controls["img"].value)
     if(this.productForm.controls["img"].value != null 
     && this.productForm.controls["img"].value != undefined 
     && this.productForm.controls["img"].value !=""){
@@ -102,9 +122,47 @@ export class ProductEditComponent implements OnInit {
       product.img=this.base64;
     }
     if (this.flag) {
-      this.productData.editProduct(product, this.productForm.controls["productName"].value, this.fileName , this.type);
+      this.productData.editProduct(product, this.name, this.fileName , this.type);
     } else {
       this.productData.addProduct(product, this.fileName , this.type);
     }
   }
+
+  message(message:string){
+    Sweet.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: message,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
+ async reset(){
+  event.preventDefault()
+    if (this.name) {
+      this.titolo="Edita prodotto";
+        this.product= await this.productService.findProductByName(this.name);
+        this.productForm.controls["productName"].setValue(this.product.productName)
+        this.productForm.controls["desc"].setValue(this.product.desc)
+        this.productForm.controls["quantity"].setValue(this.product.quantity)
+        this.productForm.controls["productPrice"].setValue(this.product.productPrice)
+        this.productForm.controls["img"].setValue(null)
+        this.base64='data:image/jpg;base64,' + this.product.img;
+        this.fileName = "Scegli un'immmagine";
+    }else{
+      this.fileName = "Scegli un'immmagine";
+      this.productForm.controls["productName"].setValue('');
+      this.productForm.controls["desc"].setValue('');
+      this.productForm.controls["quantity"].setValue('');
+      this.productForm.controls["productPrice"].setValue('');
+      this.productForm.controls["img"].setValue(null);
+      this.productForm.markAsUntouched();
+      this.productForm.markAsPristine();
+
+      this.base64=null;
+    }
+    
+  }
+  
 }

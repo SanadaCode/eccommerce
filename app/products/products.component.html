@@ -1,7 +1,8 @@
-
-<br>
+<div class="alert alert-danger mt-2 " *ngIf="(products==null || products.length == 0 ) && showMessage">
+  <span>Nessun prodotto trovato!</span>
+</div>
 <div  class="container" *ngIf="products != null">
-    <div *ngIf="!isSeller" class="card-columns" >
+    <div *ngIf="!isSeller" class="row space" >
         <app-product-item
         *ngFor="let productEl of products"
         [product]="productEl"
@@ -9,9 +10,17 @@
         >
         </app-product-item>
     </div>
-  <div class="row" *ngIf="isSeller ">
-    <div class="col-10" >
-      <div class="card-columns"  *ngIf="isSeller && !isTable">
+    <div class="row justify-content-center">
+      <div class="col-3 mb-4 change-view" *ngIf="isSeller">
+          <button class="btn btn-primary mr-2" (click)="getTable()" [disabled]="isTable">Table</button>
+          <button class="btn btn-primary mr-2"
+           (click)="getCard()" 
+           [disabled]="!isTable">Card</button>
+        </div>
+    </div>
+  <div  *ngIf="isSeller ">
+    <div>
+      <div class="row space"  *ngIf="isSeller && !isTable">
           <app-product-item
           *ngFor="let productEl of products"
           [product]="productEl"
@@ -20,7 +29,7 @@
           </app-product-item>
       </div>
       <div *ngIf="isSeller && isTable">
-          <table class="table table-striped table-bordered dt-responsive nowrap" id="dataTable" >
+          <table class="table  table-striped table-bordered dt-responsive nowrap " id="dataTable" >
               <thead class="">
                 <tr>
                   <th scope="col">#</th>
@@ -41,16 +50,12 @@
                   <td>{{product.desc}}</td>
                   <td>{{product.productPrice}}</td>
                   <td>{{product.quantity}}</td>
-                  <td><a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="editProduct(product)">Modifica</a></td>
+                  <td><a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="editProduct(product)"><i class="fa fa-edit"></i></a></td>
                   <td><a class="btn btn-primary mr-2" *ngIf="productData.seller" (click)="deleteProduct(product)"><i class="fa fa-trash"></i></a></td>
                 </tr>
               </tbody>
             </table>
       </div>
-    </div>
-    <div class="col-2" *ngIf="isSeller">
-      <button class="btn btn-primary mr-2" (click)="getTable()" [disabled]="isTable">Table</button>
-      <button class="btn btn-primary mr-2" (click)="getCard()" [disabled]="!isTable">Card</button>
     </div>
   </div>
 </div>

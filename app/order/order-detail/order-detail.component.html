@@ -1,14 +1,14 @@
 <div class="alert alert-danger mt-2" *ngIf="(orders==null || orders.length == 0) && !flag ">
   <span>Nessun Prodotto nell'ordine!</span>
 </div>
-<div class="table table-responsive mt-4" *ngIf="orders!=null && orders.length != 0 ">
+<div class="table table-responsive mt-4 centro"  *ngIf="orders!=null && orders.length != 0 ">
   <h1 class="display-1" style="text-align:center">Dettaglio Ordine</h1>
   <hr>
   <div *ngFor="let order of orders">
     <div class="card mb-3" style="max-width: 900px;">
       <div class="row ">
         <div class="col-md-3">
-          <img src="{{order.img}}" class="card-img" style="max-height: 320px; min-height: 320px; max-width: 240px; min-width: 240px" alt="Immagine prodotto">
+          <img src="{{'data:image/jpg;base64,' + order.img}}" class="card-img" style="max-height: 320px; min-height: 320px; max-width: 240px; min-width: 240px" alt="Immagine prodotto">
         </div>
         <div class="col-md-8">
           <div class="card-body ml-2">
