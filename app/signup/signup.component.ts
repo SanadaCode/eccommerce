@@ -14,7 +14,7 @@ export class SignupComponent implements OnInit {
   private success:boolean=false;
 
   private loginForm= new FormGroup({
-    email: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'), NoSpaceValidator, Validators.maxLength(100)]),
+    email: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'), NoSpaceValidator, Validators.maxLength(100)]),
     pass: new FormControl('',[Validators.required,NoSpaceValidator,Validators.maxLength(100), Validators.minLength(8)]),
     confirmPass: new FormControl('',[Validators.required,NoSpaceValidator,Validators.maxLength(100), Validators.minLength(8)])
   },{validators:ConfirmPassValidator})

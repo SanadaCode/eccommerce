@@ -64,14 +64,14 @@ export class ProductsComponent implements OnInit {
     this.productData.reloadProduct();
     this.products = this.productData.getProducts();
     this.productData.theProducts.subscribe(
-      data => {
-        if(localStorage.getItem("isTable") != null){
-          $('#dataTable').DataTable().destroy();
+       data => {
+       if(localStorage.getItem("isTable") != null){
+         $('#dataTable').DataTable().destroy();
         }
         this.products = data
         this.showMessage=true;
-        if(localStorage.getItem("isTable") != null){
-          this.createTable()
+       if(localStorage.getItem("isTable") != null){
+         this.createTable()
 
         }
         this.isSeller = this.userData.isSeller();
@@ -111,8 +111,11 @@ export class ProductsComponent implements OnInit {
     localStorage.setItem("isTable", "true");
       $(document).ready( function () {
         this.flag=false;
+        $.fn.dataTable.ext.errMode="none";
         $('#dataTable').DataTable(
           {
+            responsive: true,
+            retrieve: true,
             "columnDefs": [
               { "orderable": false, "targets": 7 },
               { "orderable": false, "targets": 6},
@@ -127,8 +130,9 @@ export class ProductsComponent implements OnInit {
 
 
   createTable(){
-      $(document).ready( function () {
-        this.flag=false;
+    $(document).ready( function () {
+      this.flag=false;
+      $.fn.dataTable.ext.errMode="none";
         $('#dataTable').DataTable(
           {
             "columnDefs": [
